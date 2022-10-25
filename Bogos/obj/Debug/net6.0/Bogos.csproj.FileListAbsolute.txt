@@ -1,0 +1,15 @@
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\bin\Debug\net6.0\Bogos.exe
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\bin\Debug\net6.0\Bogos.deps.json
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\bin\Debug\net6.0\Bogos.runtimeconfig.json
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\bin\Debug\net6.0\Bogos.dll
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\bin\Debug\net6.0\Bogos.pdb
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\Bogos.csproj.AssemblyReference.cache
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\Bogos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\Bogos.AssemblyInfoInputs.cache
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\Bogos.AssemblyInfo.cs
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\Bogos.csproj.CoreCompileInputs.cache
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\Bogos.dll
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\refint\Bogos.dll
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\Bogos.pdb
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\Bogos.genruntimeconfig.cache
+C:\Users\nicol\OneDrive\Skrivebord\SWU 3. Semester\Analysis, Design and Software Architecture\bogos\Bogos_BDSA\Bogos\obj\Debug\net6.0\ref\Bogos.dll
