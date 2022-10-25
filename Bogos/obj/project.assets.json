@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\nicol\\.nuget\\packages\\": {}
+    "C:\\Users\\Oscar\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nicol\\OneDrive\\Skrivebord\\SWU 3. Semester\\Analysis, Design and Software Architecture\\bogos\\Bogos_BDSA\\Bogos\\Bogos.csproj",
+      "projectUniqueName": "C:\\Users\\Oscar\\Documents\\ITU\\3. semester\\Analysis, Design and Software Architecture\\Bogos_BDSA\\Bogos\\Bogos.csproj",
       "projectName": "Bogos",
-      "projectPath": "C:\\Users\\nicol\\OneDrive\\Skrivebord\\SWU 3. Semester\\Analysis, Design and Software Architecture\\bogos\\Bogos_BDSA\\Bogos\\Bogos.csproj",
-      "packagesPath": "C:\\Users\\nicol\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nicol\\OneDrive\\Skrivebord\\SWU 3. Semester\\Analysis, Design and Software Architecture\\bogos\\Bogos_BDSA\\Bogos\\obj\\",
+      "projectPath": "C:\\Users\\Oscar\\Documents\\ITU\\3. semester\\Analysis, Design and Software Architecture\\Bogos_BDSA\\Bogos\\Bogos.csproj",
+      "packagesPath": "C:\\Users\\Oscar\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Oscar\\Documents\\ITU\\3. semester\\Analysis, Design and Software Architecture\\Bogos_BDSA\\Bogos\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\nicol\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Oscar\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
