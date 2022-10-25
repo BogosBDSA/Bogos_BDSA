@@ -398,3 +398,16 @@ FodyWeavers.xsd
 *.sln.iml
 
 coveragereport/*
+Bogos/bin/Debug/net6.0/Bogos.dll
+Bogos/bin/Debug/net6.0/Bogos.pdb
+Bogos/obj/Bogos.csproj.nuget.dgspec.json
+Bogos/obj/Bogos.csproj.nuget.g.props
+Bogos/obj/project.assets.json
+Bogos/obj/project.nuget.cache
+Bogos/obj/Debug/net6.0/Bogos.assets.cache
+Bogos/obj/Debug/net6.0/Bogos.dll
+Bogos/obj/Debug/net6.0/Bogos.GeneratedMSBuildEditorConfig.editorconfig
+Bogos/obj/Debug/net6.0/Bogos.genruntimeconfig.cache
+Bogos/obj/Debug/net6.0/Bogos.pdb
+Bogos.tests/obj/Debug/net6.0/Bogos.tests.assets.cache
+Bogos.tests/obj/Debug/net6.0/Bogos.tests.GeneratedMSBuildEditorConfig.editorconfig
