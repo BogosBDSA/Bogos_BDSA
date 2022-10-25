@@ -10,6 +10,6 @@ public class UnitTest1
     var test1 = new Onlytest();
 
     test1.testmethod("it").Equals("it works"); 
-    test1.testmethod("works does ").Should().Be("works does works");  
+    test1.testmethod("does").Should().Be("does works");  
     }
 }
