@@ -18,14 +18,15 @@ public class gitInsight
     public void Test_Number_Of_Commits_Per_Day()
     {
         //arrange
-        var repo = new Repository("@../../testing-for-bdsa");
+        var expected = new List<string> {"[26-10-2022 00:00:00, 7]", "[25-10-2022 00:00:00, 24]"};
+        var path = @"../";
 
         //act 
-        var commits = repo.Commits;
-
+        //var results = new frequency(path);
+        var results = frequency.gitInsightfrequency(); 
 
         //assert
-        
+        results.Should().BeEquivalentTo(expected);
 
     }
 }
