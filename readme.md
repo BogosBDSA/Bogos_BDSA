@@ -9,3 +9,8 @@ important to do in the correct folders
 dotnet add package LibGit2Sharp --version 0.26.2
 dotnet add package FluentAssertions --version 6.8.0
 ```
+
+### This is the testing repository
+```
+https://github.com/SDeLaVida/testing-for-bdsa
+```
