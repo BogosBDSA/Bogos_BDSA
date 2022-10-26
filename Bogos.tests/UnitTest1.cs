@@ -7,7 +7,8 @@ public class UnitTest1
     {  
     var test1 = new Onlytest();
 
-    test1.testmethod("it").Equals("it works");    
+    test1.testmethod("it").Equals("it works");     
+    test1.testmethod("does").Should().Be("does works");  
     }
 }
 
@@ -18,5 +19,6 @@ public class gitInsight
     {
         //this test only works on the 25/10/2022
         
+
     }
 }
