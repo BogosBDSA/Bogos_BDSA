@@ -17,7 +17,14 @@ public class gitInsight
     [Fact]
     public void Test_Number_Of_Commits_Per_Day()
     {
-        //this test only works on the 25/10/2022
+        //arrange
+        var repo = new Repository("@../");
+
+        //act 
+        var commits = repo.Commits;
+
+
+        //assert
         
 
     }
