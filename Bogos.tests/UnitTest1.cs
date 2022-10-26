@@ -18,7 +18,7 @@ public class gitInsight
     public void Test_Number_Of_Commits_Per_Day()
     {
         //arrange
-        var repo = new Repository("@../");
+        var repo = new Repository("@../../testing-for-bdsa");
 
         //act 
         var commits = repo.Commits;
