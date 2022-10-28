@@ -31,7 +31,7 @@ public class gitInsightTests : IDisposable
     public void Test_Number_Of_Commits_Per_Day()
     {
         //arrange
-        var expected = new List<string> {"05/05/2020 00:00:00, 1"};
+        var expected = new List<string> {"1 05/05/2020"};
         //act 
         var repo = new frequency(testRepo);
         
