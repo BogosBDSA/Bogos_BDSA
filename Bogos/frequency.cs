@@ -37,6 +37,8 @@ Repository repo;
             {
                 returnList.Add(element.Value.ToString()+ " " + element.Key.Replace("00:00:00","").TrimEnd());
             }
+            returnList.Reverse();
+        
             return returnList;
     }
 }
