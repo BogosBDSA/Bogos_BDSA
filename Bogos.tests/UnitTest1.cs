@@ -31,11 +31,9 @@ public class gitInsightTests : IDisposable
     public void Test_Number_Of_Commits_Per_Day()
     {
         //arrange
-        var expected = new List<string> {"[05-05-1945 00:00:00, 1]"};
-        var path = repoPath;
-
+        var expected = new List<string> {"05-05-2020 00:00:00, 1"};
         //act 
-        var repo = new frequency(path);
+        var repo = new frequency(testRepo);
         
         var results = repo.gitInsightfrequency(); 
         Dispose();
@@ -48,14 +46,16 @@ public class gitInsightTests : IDisposable
     {
         //used to delete repo when we're done
         testRepo.Dispose();
-        DeleteReadOnlyDirectory(repoPath);
+        //DeleteReadOnlyDirectory(System.IO.Directory.GetParent(repoPath)!.ToString());
     }
    public static void DeleteReadOnlyDirectory(string directory)
 {
+    
     foreach (var subdirectory in Directory.EnumerateDirectories(directory)) 
     {
         DeleteReadOnlyDirectory(subdirectory);
     }
+    
     foreach (var fileName in Directory.EnumerateFiles(directory))
     {
         var fileInfo = new FileInfo(fileName);

@@ -7,6 +7,9 @@ namespace Bogos;
     {
         public static void Main(string[] args)
       {
+
+        
+        /*
           using (var repo = new Repository(@"../"))
           
           {
@@ -31,5 +34,6 @@ namespace Bogos;
               Console.WriteLine(number); 
             }
           }
+          */
       }
     }

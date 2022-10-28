@@ -7,9 +7,9 @@ public class frequency
 {
 Repository repo;
 
-    public frequency(string path)
+    public frequency(Repository repo)
     {
-    this.repo = new Repository(path);
+    this.repo = repo;
     }
 
     public IEnumerable<string> gitInsightfrequency()
@@ -31,7 +31,7 @@ Repository repo;
             var returnList = new List<string>();
             foreach (var element in dict)
             {
-                returnList.Add(element.Key + element.Value.ToString());
+                returnList.Add(element.Key + ", " + element.Value.ToString());
             }
             return returnList;
     }
