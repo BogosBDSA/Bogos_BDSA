@@ -1,0 +1,7 @@
+class GitAuthorMode
+{
+    public GitAuthorMode()
+    {
+
+    }
+}
