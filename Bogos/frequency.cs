@@ -11,6 +11,10 @@ Repository repo;
     {
     this.repo = repo;
     }
+    public frequency(string path)
+    {
+        this.repo = new Repository(path);
+    }
 
     public IEnumerable<string> gitInsightfrequency()
     {
@@ -31,7 +35,7 @@ Repository repo;
             var returnList = new List<string>();
             foreach (var element in dict)
             {
-                returnList.Add(element.Key + ", " + element.Value.ToString());
+                returnList.Add(element.Value.ToString()+ " " + element.Key.Replace("00:00:00","").TrimEnd());
             }
             return returnList;
     }
