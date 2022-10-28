@@ -1,17 +1,5 @@
 namespace Bogos.tests;
 
-public class UnitTest1
-{
-    [Fact]
-    public void testThatTestingWorks()
-    {  
-    var test1 = new Onlytest();
-
-    test1.testmethod("it").Equals("it works");     
-    test1.testmethod("does").Should().Be("does works");  
-    }
-}
-
 public class gitInsightTests : IDisposable
 {
     DateTimeOffset time1 = new DateTimeOffset(new DateTime(2000, 05, 05));
@@ -42,7 +30,6 @@ public class gitInsightTests : IDisposable
         var expected = new List<string> {"2 2000-5-5", "1 2010-12-10", "1 2022-1-31"};
         //act 
         var repo = new frequency(testRepo);
-        
         var results = repo.gitInsightfrequency(); 
         Dispose();
         //assert
@@ -52,9 +39,7 @@ public class gitInsightTests : IDisposable
 
     public void Dispose()
     {
-        //used to delete repo when we're done
         testRepo.Dispose();
-        
     }
    public static void DeleteReadOnlyDirectory(string directory)
 {

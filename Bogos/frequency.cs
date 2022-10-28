@@ -19,7 +19,7 @@ string day, month, year, date;
 
     public IEnumerable<string> gitInsightfrequency()
     {
-            var dates = new ArrayList();
+            var dates = new List<String>();
             var dict = new Dictionary<string, int>();
             
             foreach (Commit commit in repo.Commits)
