@@ -18,7 +18,7 @@ Repository repo;
             var dict = new Dictionary<string, int>();
             foreach (Commit commit in repo.Commits)
             {
-                dates.Add(commit.Author.When.Date.ToString());
+                dates.Add(commit.Author.When.Date.ToString().Replace("-","/"));
             }
             foreach (string date in dates)
             {
