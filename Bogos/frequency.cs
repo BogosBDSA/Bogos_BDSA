@@ -15,28 +15,29 @@ Repository repo;
 */
 
     public static IEnumerable<string> gitInsightfrequency()
-    {   
-    using (var repo = new Repository(@"../"))
     {
-    var dates = new ArrayList(); 
-    var dict = new Dictionary<string, int>();
-        foreach (Commit commit in repo.Commits)
+        using (var repo = new Repository(@"/home/lunero/ITU/3. Semester/BDSA (analysis, design and software architecture)/Big Project/testing-for-bdsa/"))
         {
-            dates.Add(commit.Author.When.Date.ToString());
-        }
-        foreach (string date in dates)
-        {
-            if(dict.ContainsKey(date))
+            var dates = new ArrayList();
+            var dict = new Dictionary<string, int>();
+            foreach (Commit commit in repo.Commits)
             {
-            dict[date]=dict[date]+1;
-            } else dict.Add(date, 1);
+                dates.Add(commit.Author.When.Date.ToString());
+            }
+            foreach (string date in dates)
+            {
+                if (dict.ContainsKey(date))
+                {
+                    dict[date] = dict[date] + 1;
+                }
+                else dict.Add(date, 1);
+            }
+            var returnList = new List<string>();
+            foreach (var element in dict)
+            {
+                returnList.Add(element.Key + element.Value.ToString());
+            }
+            return returnList;
         }
-        var returnList = new List<string>(); 
-        foreach (var element in dict)  
-        {
-           returnList.Add(element.Key + element.Value.ToString());
-        }
-        return returnList;
-    }
     }
 }
