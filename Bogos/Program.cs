@@ -7,17 +7,15 @@ namespace Bogos;
     {
         public static void Main(string[] args)
       {
+
+        
+        /*
           using (var repo = new Repository(@"../"))
           
           {
             var dates = new ArrayList(); 
             foreach (Commit commit in repo.Commits)
             {
-              /*
-            Console.WriteLine("Author: {0}", commit.Author.Name);
-            Console.WriteLine("Message: {0}", commit.MessageShort);
-            Console.WriteLine("date: {0}", commit.Author.When);
-            */
             dates.Add(commit.Author.When.Date.ToString());
             }
             var counter = 1; 
@@ -36,5 +34,6 @@ namespace Bogos;
               Console.WriteLine(number); 
             }
           }
+          */
       }
     }
