@@ -12,21 +12,42 @@ public class UnitTest1
     }
 }
 
-public class gitInsight
+public class gitInsightTests : IDisposable
 {
+    DateTimeOffset time1 = new DateTimeOffset(new DateTime(2020, 05, 05));
+    Repository testRepo; 
+    String repoPath;
+    public gitInsightTests() 
+    {
+        try{
+    repoPath = Repository.Init(@"../../.././testRepo");
+    testRepo = new Repository(repoPath);
+    var options = new CommitOptions();
+    options.AllowEmptyCommit=true;
+    var signature1 = new Signature("Nicolai", "bøvmail@123", time1);
+    testRepo.Commit("inital commit",signature1,signature1,options);  
+        } finally {Dispose();}
+    }
+
     [Fact]
     public void Test_Number_Of_Commits_Per_Day()
     {
         //arrange
-        var expected = new List<string> {"[26-10-2022 00:00:00, 7]", "[25-10-2022 00:00:00, 24]"};
-        var path = @"../";
+        var expected = new List<string> {"[05-05-1945 00:00:00, 1]"};
+        var path = repoPath;
 
         //act 
-        //var results = new frequency(path);
-        var results = frequency.gitInsightfrequency(); 
+        var repo = new frequency(path);
+        var results = repo.gitInsightfrequency(); 
 
         //assert
         results.Should().BeEquivalentTo(expected);
+    }
 
+    public void Dispose()
+    {
+        //used to delete repo when we're done
+        testRepo.Dispose();
+        Directory.Delete(repoPath,true);
     }
 }
