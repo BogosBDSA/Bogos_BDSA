@@ -48,19 +48,20 @@ public class gitInsightTests : IDisposable
     {
         //used to delete repo when we're done
         testRepo.Dispose();
-        DeleteDirectory(repoPath);
+        DeleteReadOnlyDirectory(repoPath);
     }
-     private static void DeleteDirectory(string directory)
+   public static void DeleteReadOnlyDirectory(string directory)
+{
+    foreach (var subdirectory in Directory.EnumerateDirectories(directory)) 
     {
-        foreach (string fileName in Directory.EnumerateFiles(directory))
-        {
-            var fileInfo = new FileInfo(fileName)
-            {
-                Attributes = FileAttributes.Normal
-            };
-            fileInfo.Delete();
-        }
-
-        Directory.Delete(directory);
+        DeleteReadOnlyDirectory(subdirectory);
     }
+    foreach (var fileName in Directory.EnumerateFiles(directory))
+    {
+        var fileInfo = new FileInfo(fileName);
+        fileInfo.Attributes = FileAttributes.Normal;
+        fileInfo.Delete();
+    }
+    Directory.Delete(directory);
+}
 }
