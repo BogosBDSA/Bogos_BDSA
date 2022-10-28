@@ -39,14 +39,14 @@ public class gitInsightTests : IDisposable
         Dispose();
         //assert
         results.Should().BeEquivalentTo(expected);
-        
+        DeleteReadOnlyDirectory(repoPath);
     }
 
     public void Dispose()
     {
         //used to delete repo when we're done
         testRepo.Dispose();
-        //DeleteReadOnlyDirectory(System.IO.Directory.GetParent(repoPath)!.ToString());
+        
     }
    public static void DeleteReadOnlyDirectory(string directory)
 {
