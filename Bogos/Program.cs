@@ -7,7 +7,6 @@ namespace Bogos;
     {
         public static void Main(string[] args)
       {
-        frequency.gitInsightfrequency();
           using (var repo = new Repository(@"../"))
           
           {

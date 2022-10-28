@@ -3,21 +3,17 @@ using LibGit2Sharp;
 
 namespace Bogos;
 
-public static class frequency
+public class frequency
 {
-    /*
 Repository repo;
 
     public frequency(string path)
     {
     this.repo = new Repository(path);
     }
-*/
 
-    public static IEnumerable<string> gitInsightfrequency()
+    public IEnumerable<string> gitInsightfrequency()
     {
-        using (var repo = new Repository(@"/home/lunero/ITU/3. Semester/BDSA (analysis, design and software architecture)/Big Project/testing-for-bdsa/"))
-        {
             var dates = new ArrayList();
             var dict = new Dictionary<string, int>();
             foreach (Commit commit in repo.Commits)
@@ -38,6 +34,5 @@ Repository repo;
                 returnList.Add(element.Key + element.Value.ToString());
             }
             return returnList;
-        }
     }
 }
