@@ -7,7 +7,7 @@ public class gitInsightTests : IDisposable
     DateTimeOffset time3 = new DateTimeOffset(new DateTime(2022, 01, 31));
     Repository testRepo; 
     String repoPath;
-    public gitInsightTests() 
+    public gitInsightTests()
     {
     repoPath = Repository.Init(@"./testRepo");
     testRepo = new Repository(repoPath);
