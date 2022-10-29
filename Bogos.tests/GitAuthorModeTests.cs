@@ -34,16 +34,13 @@ public class GitAuthorModeTests : IDisposable
         var commit1 = _repo.Commit("First commit from author", author, author, commitOptions);
         var commit2 = _repo.Commit("First commit from committer1", author, committer1, commitOptions);
         var commit3 = _repo.Commit("First commit from committer2", author, committer2, commitOptions);
-        var expected = new List<string> {
-            commit1.Message.ToString(),
-            commit1.Author.ToString(),
+        var expected = new List<string?> {
             commit1.Committer.ToString(),
-            commit2.Message.ToString(),
-            commit2.Author.ToString(),
+            $"\t2 {commit1.Committer.When.ToString()}",
             commit2.Committer.ToString(),
-            commit3.Message.ToString(),
-            commit3.Author.ToString(),
-            commit3.Committer.ToString()
+            $"\t1 {commit2.Committer.When.ToString()}",
+            commit3.Committer.ToString(),
+            $"\t1 {commit3.Committer.When.ToString()}"
         };
 
         // When
@@ -52,7 +49,9 @@ public class GitAuthorModeTests : IDisposable
         var writtenLines = console.WrittenLines;
 
         // Then
-        writtenLines.Should().BeEquivalentTo(expected);
+        writtenLines.Should().ContainInOrder(expected);
+        //writtenLines.Should().ContainInConsecutiveOrder(expected);
+        //Dispose();
     }
 
     public void Dispose()

@@ -7,11 +7,26 @@ public class GitAuthorMode
     {
         this.Console = console;
         this.repo = repo;
+        run();
     }
     public GitAuthorMode(Repository repo)
     {
         this.Console = new RunningConsole();
         this.repo = repo;
+        run();
+    }
 
+    void run()
+    {
+        foreach (var Committer in repo.Commits.Select(c => c.Committer).Distinct())
+        {
+            Console.WriteLine(Committer.ToString());
+
+            foreach (var commit in repo.Commits.Where(c => c.Committer == Committer).GroupBy(k => k.Committer.When).Select(g => $"{g.Count()} {g.Key.ToString()}"))
+            {
+                Console.WriteLine($"\t{commit}");
+            }
+
+        }
     }
 }

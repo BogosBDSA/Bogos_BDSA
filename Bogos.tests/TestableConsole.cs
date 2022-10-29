@@ -2,7 +2,7 @@ using Bogos;
 
 class TestableConsole : IConsole
 {
-    public IEnumerable<string> WrittenLines { get; set; }
+    public List<string> WrittenLines { get; set; }
     public string? LineToread { get; set; }
     public TestableConsole()
     {
@@ -16,11 +16,11 @@ class TestableConsole : IConsole
 
     public void Write(string value)
     {
-        WrittenLines.Append(value);
+        WrittenLines.Add(value);
     }
 
     public void WriteLine(string value)
     {
-        WrittenLines.Append(value);
+        WrittenLines.Add(value);
     }
 }
