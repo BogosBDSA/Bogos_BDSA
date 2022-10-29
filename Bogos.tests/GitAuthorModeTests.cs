@@ -10,7 +10,7 @@ public class GitAuthorModeTests : IDisposable
     Repository _repo;
     public GitAuthorModeTests()
     {
-        _workingPath = Repository.Init(@"./testRepo");
+        _workingPath = Repository.Init(@"./testRepoAuthorMode");
         _repo = new Repository(_workingPath);
 
         author = new Signature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20));
