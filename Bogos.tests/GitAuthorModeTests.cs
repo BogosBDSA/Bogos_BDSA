@@ -45,7 +45,7 @@ public class GitAuthorModeTests : IDisposable
 
         // When
         var console = new TestableConsole();
-        var authorMode = new GitAuthorMode(console, _repo);
+        var authorMode = new AuthorMode(console, _repo);
         var writtenLines = console.WrittenLines;
 
         // Then

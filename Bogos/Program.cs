@@ -5,25 +5,50 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        /*   Console.WriteLine(args.ToString());
-          string path = args
-                          .Where(c => c != "-am" && c != "-fm" && Path.GetPathRoot(c) != null || Path.GetFullPath(c) != null)
-                          .Select(c => c).First();
+        Repository repo;
+        while (true)
+        {
+            Console.WriteLine("Please enter a valid repository path.");
+            var repoPath = Console.ReadLine();
+            try
+            {
+                repo = new Repository(repoPath);
 
-          if (path == null) throw new UnmatchedPathException();
-          var repo = new Repository(path + "/.git/");
-          if (args.Contains("-am")) new GitAuthorMode(new RunningConsole(), repo);
-          if (args.Contains("-fm")) new frequency(repo);
+                if (repo != null) break;
+            }
+            catch (RepositoryNotFoundException)
+            {
 
-   */
-        var repo = new Repository(@"/home/lunero/ITU/3. Semester/BDSA (analysis, design and software architecture)/Big Project/Bogos_BDSA");
-        _ = new GitAuthorMode(new RunningConsole(), repo);
+                Console.WriteLine("Not a valid path! Try again!\n");
+            }
 
-        /*    var repo = new frequency("../");
-           foreach (var element in repo.gitInsightfrequency())
-           {
-               Console.WriteLine(element);
-           } */
+        }
+
+        while (true)
+        {
+            Console.WriteLine("\nPlease choose which mode you wish to use.");
+            Console.WriteLine("Type 1 for Frequency Mode");
+            Console.WriteLine("Type 2 for Author Mode");
+
+            var mod = Console.ReadLine();
+            switch (mod)
+            {
+                case "1":
+                    Console.WriteLine("\nFrequency Mode:");
+                    _ = new frequency(repo);
+                    break;
+                case "2":
+                    Console.WriteLine("\nAuthor Mode:");
+                    _ = new AuthorMode(repo);
+                    break;
+                default:
+                    Console.WriteLine("Unable to understand input. Try again!\n");
+                    continue;
+            }
+            break;
+
+        }
+
+
     }
-
 }

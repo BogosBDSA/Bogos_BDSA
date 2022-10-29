@@ -1,15 +1,15 @@
 namespace Bogos;
-public class GitAuthorMode
+public class AuthorMode
 {
     private IConsole Console { get; }
     private Repository repo;
-    public GitAuthorMode(IConsole console, Repository repo)
+    public AuthorMode(IConsole console, Repository repo)
     {
         this.Console = console;
         this.repo = repo;
         run();
     }
-    public GitAuthorMode(Repository repo)
+    public AuthorMode(Repository repo)
     {
         this.Console = new RunningConsole();
         this.repo = repo;
