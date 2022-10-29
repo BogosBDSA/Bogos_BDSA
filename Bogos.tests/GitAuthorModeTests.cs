@@ -36,11 +36,11 @@ public class GitAuthorModeTests : IDisposable
         var commit3 = _repo.Commit("First commit from committer2", author, committer2, commitOptions);
         var expected = new List<string?> {
             commit1.Committer.ToString(),
-            $"\t2 {commit1.Committer.When.ToString()}",
+            $"\t2 {commit1.Committer.When.ToString("dd/MM/yyyy")}",
             commit2.Committer.ToString(),
-            $"\t1 {commit2.Committer.When.ToString()}",
+            $"\t1 {commit2.Committer.When.ToString(@"dd/MM/yyyy")}",
             commit3.Committer.ToString(),
-            $"\t1 {commit3.Committer.When.ToString()}"
+            $"\t1 {commit3.Committer.When.ToString(@"dd/MM/yyyy")}"
         };
 
         // When
@@ -50,7 +50,6 @@ public class GitAuthorModeTests : IDisposable
 
         // Then
         writtenLines.Should().ContainInOrder(expected);
-        //writtenLines.Should().ContainInConsecutiveOrder(expected);
         //Dispose();
     }
 
