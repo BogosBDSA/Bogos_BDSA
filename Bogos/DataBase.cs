@@ -3,7 +3,7 @@ namespace Bogos;
 public class DataBase{
 
     public DataBase(){
-        
+
     }
 
     /* public void CountCommitsFromAuthor(){
@@ -18,6 +18,16 @@ public class DataBase{
         return (from commits in author
                 where commits.Author.Contains(AuthorName)
                 select commits.Message);
+
+    }
+
+    public static int GetNumberOfCommitsFromAuthor(string AuthorName){
+
+        var author = DataCollection.Create();
+
+        return (int)(from commits in author
+        where commits.Author.Contains(AuthorName)
+        select commits.Commit).Count();
 
     }
 

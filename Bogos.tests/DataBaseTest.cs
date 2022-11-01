@@ -8,7 +8,7 @@ public class DataBaseTest{
     Repository testRepo; 
     String repoPath;
 
-    public void DataBaseTester(){
+    /* public void DataBaseTester(){
 
         repoPath = Repository.Init(@"./testRepo");
         testRepo = new Repository(repoPath);
@@ -26,7 +26,7 @@ public class DataBaseTest{
         testRepo.Commit("third commit",signature3,signature3,options); 
         testRepo.Commit("last commit",signature4,signature4,options);  
 
-    }
+    } */
 
     [Fact]
     public void DataBaseCheckHowManyCommitsPerAuthor(){
@@ -45,7 +45,17 @@ public class DataBaseTest{
         
     }
 
-    public static void DeleteReadOnlyDirectory(string directory){
+    [Fact]
+    public void GetNumberOfCommitsFromAuthor(){
+        int expected = 2;
+        var name = "Rosco";
+
+        var results = DataBase.GetNumberOfCommitsFromAuthor(name);
+
+        results.Should().Be(expected);
+    }
+
+    /* public static void DeleteReadOnlyDirectory(string directory){
     
     foreach (var subdirectory in Directory.EnumerateDirectories(directory)) 
         {
@@ -58,7 +68,7 @@ public class DataBaseTest{
         fileInfo.Delete();
         }
         Directory.Delete(directory);
-    }
+    } */
 
 
 }
