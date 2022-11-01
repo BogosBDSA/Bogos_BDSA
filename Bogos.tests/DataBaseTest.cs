@@ -32,14 +32,16 @@ public class DataBaseTest{
     public void DataBaseCheckHowManyCommitsPerAuthor(){
 
         //arrange
-        var expectedResult = 2;
+            //var expectedResult = 2;
+        string expected = "Oh deer";
+        var name = "Ninolais";
+        
         //act
-
-        var repo = new DataBase(testRepo);
+        var results = DataBase.GetAllCommitsFromAuthor(name);
         //var results = repo.CountCommitsFromAuthor();
 
         //assert
-        repo.Should().BeEquivalentTo(expectedResult);
+        results.Should().BeEquivalentTo(expected);
         
     }
 
