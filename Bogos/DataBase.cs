@@ -6,9 +6,7 @@ public class DataBase{
 
     }
 
-    /* public void CountCommitsFromAuthor(){
-        throw new NotImplementedException();
-    } */
+
     
     public static IEnumerable<string> GetAllCommitsFromAuthor(string AuthorName)
     {

@@ -8,37 +8,16 @@ public class DataBaseTest{
     Repository testRepo; 
     String repoPath;
 
-    /* public void DataBaseTester(){
-
-        repoPath = Repository.Init(@"./testRepo");
-        testRepo = new Repository(repoPath);
-
-        var options = new CommitOptions();
-        options.AllowEmptyCommit=true;
-
-        var signature1 = new Signature("Nicolai", "bøvmail@123", time1);
-        var signature2 = new Signature("Mo", "bøvmail@123", time1);
-        var signature3 = new Signature("Sigurd", "bøvmail@123", time2);
-        var signature4 = new Signature("Nicolai", "bøvmail@123", time3);
-
-        testRepo.Commit("inital commit",signature1,signature1,options); 
-        testRepo.Commit("second commit",signature2,signature2,options); 
-        testRepo.Commit("third commit",signature3,signature3,options); 
-        testRepo.Commit("last commit",signature4,signature4,options);  
-
-    } */
 
     [Fact]
     public void DataBaseCheckHowManyCommitsPerAuthor(){
 
         //arrange
-            //var expectedResult = 2;
         string expected = "Oh deer";
         var name = "Ninolais";
         
         //act
         var results = DataBase.GetAllCommitsFromAuthor(name);
-        //var results = repo.CountCommitsFromAuthor();
 
         //assert
         results.Should().BeEquivalentTo(expected);
@@ -54,21 +33,5 @@ public class DataBaseTest{
 
         results.Should().Be(expected);
     }
-
-    /* public static void DeleteReadOnlyDirectory(string directory){
-    
-    foreach (var subdirectory in Directory.EnumerateDirectories(directory)) 
-        {
-        DeleteReadOnlyDirectory(subdirectory);
-        }
-    
-        foreach (var fileName in Directory.EnumerateFiles(directory)){
-        var fileInfo = new FileInfo(fileName);
-        fileInfo.Attributes = FileAttributes.Normal;
-        fileInfo.Delete();
-        }
-        Directory.Delete(directory);
-    } */
-
 
 }
