@@ -3,9 +3,15 @@ namespace Bogos;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async void Main(string[] args)
     {
         Repository repo;
+        await using var db = new GitContext();
+        await db.Database.EnsureDeletedAsync();
+        await db.Database.EnsureCreatedAsync();
+
+
+
         while (true)
         {
             Console.WriteLine("Please enter a valid repository path.");
@@ -29,13 +35,18 @@ public class Program
             Console.WriteLine("\nPlease choose which mode you wish to use.");
             Console.WriteLine("Type 1 for Frequency Mode");
             Console.WriteLine("Type 2 for Author Mode");
+            
 
             var mod = Console.ReadLine();
             switch (mod)
             {
                 case "1":
                     Console.WriteLine("\nFrequency Mode:");
-                    _ = new frequency(repo);
+                    var FrequencyResult = new frequency(repo);
+                    foreach (var commit in FrequencyResult)
+                    {
+                        
+                    }
                     break;
                 case "2":
                     Console.WriteLine("\nAuthor Mode:");

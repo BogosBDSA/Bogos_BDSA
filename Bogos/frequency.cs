@@ -11,7 +11,7 @@ public class frequency
     public frequency(Repository repo)
     {
         this.repo = repo;
-        Run();
+        gitInsightfrequency();
 
 
     }
@@ -29,6 +29,13 @@ public class frequency
         {
             Console.WriteLine(commit);
         }
+    }
+    public string DbRun(){
+        foreach (var commit in gitInsightfrequency())
+        {
+            return commit;
+        }
+        return "";
     }
 
     public IEnumerable<string> gitInsightfrequency()

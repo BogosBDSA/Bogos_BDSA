@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5430,
+            "driver": "PostgreSQL",
+            "name": "bogos",
+            "database": "bogosdb",
+            "username": "postgres",
+            "password": "mypassword"
+        }
+    ]
+}
