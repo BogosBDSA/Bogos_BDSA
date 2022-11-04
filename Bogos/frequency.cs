@@ -30,15 +30,15 @@ public class frequency
             Console.WriteLine(commit);
         }
     }
-    public string DbRun(){
+    public FrequencyObject DbRun(){
         foreach (var commit in gitInsightfrequency())
         {
             return commit;
         }
-        return "";
+        throw new NotFoundException("No commits in repository");
     }
 
-    public IEnumerable<string> gitInsightfrequency()
+    public IEnumerable<FrequencyObject> gitInsightfrequency()
     {
         var dates = new List<String>();
         var dict = new Dictionary<string, int>();
@@ -59,13 +59,24 @@ public class frequency
             }
             else dict.Add(date, 1);
         }
-        var returnList = new List<string>();
+        var returnList = new List<FrequencyObject>();
         foreach (var element in dict)
         {
-            returnList.Add(element.Value + element.Key);
+            returnList.Add(new FrequencyObject(element.Value, element.Key));
+
         }
         returnList.Reverse();
 
         return returnList;
+    }
+
+    public class FrequencyObject{
+        public int commit{ get; }
+        public string date { get; }
+        public FrequencyObject(int commit, string date){
+            this.commit = commit;
+            this.date = date;
+
+        }
     }
 }

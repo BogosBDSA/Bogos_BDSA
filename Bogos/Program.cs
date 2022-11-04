@@ -48,13 +48,14 @@ public class Program
                     foreach (var commit in res)
                     {
                     Id++;
-                    db.FD.Add(new() {Id=Id, Date=commit.ToString(), Commit=0});
+                    
+                    db.FD.Add(new() {Id=Id, Date = commit.date, Commit = commit.commit});
                     db.SaveChanges();
                     }
                     foreach (var FrequencyData in db.FD)
                     {
-                        Console.WriteLine(FrequencyData.Id);
-                        Console.WriteLine(FrequencyData.Commit);
+                        
+                        Console.Write(FrequencyData.Commit);
                         Console.WriteLine(FrequencyData.Date);
                     }
                     
