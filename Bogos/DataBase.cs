@@ -10,7 +10,7 @@ public class DataBase{
     
     public static IEnumerable<string> GetAllCommitsFromAuthor(string AuthorName)
     {
-        var  author  = DataCollection.Create();
+        var author  = DataCollection.Create();
 
 
         return (from commits in author
