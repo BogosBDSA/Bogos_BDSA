@@ -3,12 +3,12 @@ namespace Bogos;
 
 public class Program
 {
-    public static async void Main(string[] args)
+    public static void Main(string[] args)
     {
         Repository repo;
-        await using var db = new GitContext();
-        await db.Database.EnsureDeletedAsync();
-        await db.Database.EnsureCreatedAsync();
+        using var db = new GitContext();
+        db.Database.EnsureDeleted();
+        db.Database.EnsureCreated();
 
 
 
@@ -42,11 +42,22 @@ public class Program
             {
                 case "1":
                     Console.WriteLine("\nFrequency Mode:");
-                    var FrequencyResult = new frequency(repo);
-                    foreach (var commit in FrequencyResult)
+                    var rep =new frequency(repo);
+                    var res =rep.gitInsightfrequency();
+                    int Id = 0;
+                    foreach (var commit in res)
                     {
-                        
+                    Id++;
+                    db.FD.Add(new() {Id=Id, Date=commit.ToString(), Commit=0});
+                    db.SaveChanges();
                     }
+                    foreach (var FrequencyData in db.FD)
+                    {
+                        Console.WriteLine(FrequencyData.Id);
+                        Console.WriteLine(FrequencyData.Commit);
+                        Console.WriteLine(FrequencyData.Date);
+                    }
+                    
                     break;
                 case "2":
                     Console.WriteLine("\nAuthor Mode:");

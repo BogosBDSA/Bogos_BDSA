@@ -14,3 +14,9 @@ dotnet add package FluentAssertions --version 6.8.0
 ```
 https://github.com/SDeLaVida/testing-for-bdsa
 ```
+
+
+### docker command 
+
+
+docker run -d -e POSTGRES_DB=bogosdb -e POSTGRES_PASSWORD=mypassword --name bogosDB -p 5430:5432 postgres
