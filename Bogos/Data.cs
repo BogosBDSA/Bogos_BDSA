@@ -15,7 +15,7 @@ public class DataCollection : IEnumerable<Data>
 
     private static Lazy<IReadOnlyCollection<Data>> Read { get; } = new Lazy<IReadOnlyCollection<Data>>(() =>
     {
-        var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Information.csv");
+        var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../DataFolder/Information.csv");
         var csv = File.OpenText(file);
         using var reader = new CsvReader(csv, CultureInfo.InvariantCulture);
         return reader.GetRecords<Data>().ToList().AsReadOnly();
