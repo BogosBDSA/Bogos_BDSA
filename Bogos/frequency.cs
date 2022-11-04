@@ -1,17 +1,14 @@
-using System.Collections;
-using LibGit2Sharp;
-
 namespace Bogos;
 
 public class frequency
 {
     Repository repo;
-    string day, month, year, date;
+    string ?day, month, year, date;
 
     public frequency(Repository repo)
     {
         this.repo = repo;
-        Run();
+        gitInsightfrequency();
 
 
     }
@@ -30,8 +27,15 @@ public class frequency
             Console.WriteLine(commit);
         }
     }
+    public GitCommitInfo DbRun(){
+        foreach (var commit in gitInsightfrequency())
+        {
+            return commit;
+        }
+        throw new NotFoundException("No commits in repository");
+    }
 
-    public IEnumerable<string> gitInsightfrequency()
+    public IEnumerable<GitCommitInfo> gitInsightfrequency()
     {
         var dates = new List<String>();
         var dict = new Dictionary<string, int>();
@@ -52,10 +56,11 @@ public class frequency
             }
             else dict.Add(date, 1);
         }
-        var returnList = new List<string>();
+        var returnList = new List<GitCommitInfo>();
         foreach (var element in dict)
         {
-            returnList.Add(element.Value + element.Key);
+            returnList.Add(new GitCommitInfo(element.Value, element.Key));
+
         }
         returnList.Reverse();
 
