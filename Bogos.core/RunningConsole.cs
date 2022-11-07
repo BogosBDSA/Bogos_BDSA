@@ -1,7 +1,7 @@
-namespace Bogos;
+namespace Bogos.core;
 class RunningConsole : IConsole
 {
-    public string Readline()
+    public string ReadLine()
     {
         return Console.ReadLine()!;
     }

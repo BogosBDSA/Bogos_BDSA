@@ -2,8 +2,8 @@ using System.Collections;
 using System.Globalization;
 using CsvHelper;
 
+namespace Bogos.core;
 
-namespace Bogos;
 
 public record Data(int? ID, string Author, int? Commit, string Date, string Message);
 

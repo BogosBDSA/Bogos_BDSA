@@ -1,16 +1,18 @@
-namespace Bogos;
+namespace Bogos.core;
 
-public class DataBase{
+public class DataBase
+{
 
-    public DataBase(){
+    public DataBase()
+    {
 
     }
 
 
-    
+
     public static IEnumerable<string> GetAllCommitsFromAuthor(string AuthorName)
     {
-        var  author  = DataCollection.Create();
+        var author = DataCollection.Create();
 
 
         return (from commits in author
@@ -19,13 +21,14 @@ public class DataBase{
 
     }
 
-    public static int GetNumberOfCommitsFromAuthor(string AuthorName){
+    public static int GetNumberOfCommitsFromAuthor(string AuthorName)
+    {
 
         var author = DataCollection.Create();
 
         return (int)(from commits in author
-        where commits.Author.Contains(AuthorName)
-        select commits.Commit).Count();
+                     where commits.Author.Contains(AuthorName)
+                     select commits.Commit).Count();
 
     }
 

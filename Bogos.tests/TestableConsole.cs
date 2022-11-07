@@ -1,4 +1,3 @@
-using Bogos;
 
 class TestableConsole : IConsole
 {
@@ -9,7 +8,7 @@ class TestableConsole : IConsole
         WrittenLines = new List<string>();
 
     }
-    public string Readline()
+    public string ReadLine()
     {
         return LineToread!;
     }

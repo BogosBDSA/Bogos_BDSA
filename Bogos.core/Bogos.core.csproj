@@ -8,9 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="30.0.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0182" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0-rc.2" />
+  </ItemGroup>
+
+   <ItemGroup>
+    <ProjectReference Include="..\Bogos.entities\Bogos.entities.csproj" />
   </ItemGroup>
 
 </Project>

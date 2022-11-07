@@ -1,4 +1,4 @@
-namespace Bogos;
+namespace Bogos.core;
 
 public class frequency
 {

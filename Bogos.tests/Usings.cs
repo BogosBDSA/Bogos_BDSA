@@ -1,4 +1,4 @@
 global using Xunit;
 global using FluentAssertions;
 global using LibGit2Sharp;
-global using Bogos;
+global using Bogos.core;

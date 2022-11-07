@@ -1,4 +1,5 @@
 
+
 public class GitAuthorModeTests : IDisposable
 {
     readonly string branchName = "origin/GitAuthorModeTest";

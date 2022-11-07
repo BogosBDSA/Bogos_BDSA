@@ -27,7 +27,7 @@ public class gitInsightTests : IDisposable
     public void Test_Number_Of_Commits_Per_Day_when_there_is_only_one()
     {
         //arrange
-        var expected = new List<Bogos.GitCommitInfo> {new GitCommitInfo(2 ," 2000-5-5"), new GitCommitInfo(1, " 2010-12-10"), new GitCommitInfo(1, " 2022-1-31")};
+        var expected = new List<GitCommitInfo> {new GitCommitInfo(2 ," 2000-5-5"), new GitCommitInfo(1, " 2010-12-10"), new GitCommitInfo(1, " 2022-1-31")};
         //act 
         var repo = new frequency(testRepo);
         var results = repo.gitInsightfrequency(); 
