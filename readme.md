@@ -30,4 +30,4 @@ Then you will have to bind your container to that volume done by calling the vol
 
 This is run the database without binding, meaning that killing the container will delete the data.
 
-docker run -d -e POSTGRES_DB=bogosdb -e POSTGRES_PASSWORD=mypassword --name bogosDB -p 5430:5432 postgres
+``docker run -d -e POSTGRES_DB=bogosdb -e POSTGRES_PASSWORD=mypassword --name bogosDB -p 5430:5432 postgres``
