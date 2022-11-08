@@ -1,4 +1,4 @@
-## welcome to bogos
+# welcome to bogos
 
 fluentassertions and libgit2sharp have to be added 
 libgit is needed in both test and program, fluentassertions is only needed in tests
@@ -14,9 +14,9 @@ important to do in the correct folders
 <https://github.com/SDeLaVida/testing-for-bdsa>
 ---
 
-### Docker commands 
+## Docker commands 
 
-## Persitent database 
+### Persitent database 
 To make your instance of postgres save data somewhere you need to make a volume that the docker container is bound to
 ---
 ``docker volume create bogos_memory``
@@ -26,7 +26,7 @@ Then you will have to bind your container to that volume done by calling the vol
 ---
 ``docker run -d -v bogos_memory:/shared-volume -e POSTGRES_DB=bogosdb -e POSTGRES_PASSWORD=mypassword --name bogosDB -p 5430:5432 postgres``
 
-## Volatile database 
+### Volatile database 
 
 This is run the database without binding, meaning that killing the container will delete the data.
 
