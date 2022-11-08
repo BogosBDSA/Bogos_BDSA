@@ -1,6 +1,6 @@
 namespace Bogos.entities;
 
-public class RepoRepository : IRepoRepository
+public class GitRepoRepository : IGitRepoRepository
 {
     public Status CreateRepo(GitRepo repo)
     {
@@ -12,7 +12,7 @@ public class RepoRepository : IRepoRepository
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Commit> GetAllCommits()
+    public IEnumerable<GitCommit> GetAllCommits()
     {
         throw new NotImplementedException();
     }
@@ -22,7 +22,7 @@ public class RepoRepository : IRepoRepository
         throw new NotImplementedException();
     }
 
-    public Commit GetLatestCommit()
+    public GitCommit GetLatestCommit()
     {
         throw new NotImplementedException();
     }

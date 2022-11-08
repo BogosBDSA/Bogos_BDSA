@@ -6,12 +6,15 @@ public class GitAuthorModeTests : IDisposable
     CommitOptions commitOptions;
     Signature author;
     Signature committer1;
+
+
     Signature committer2;
     readonly string _workingPath;
     Repository _repo;
     public GitAuthorModeTests()
     {
-        _workingPath = Repository.Init(@"./testRepoAuthorMode");
+
+    _workingPath = Repository.Init(@"./testRepoAuthorMode");
         _repo = new Repository(_workingPath);
 
         author = new Signature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20));
@@ -31,6 +34,9 @@ public class GitAuthorModeTests : IDisposable
     [Fact]
     public void returns_ThreeDifferentCommitsFromAllSignatures_usingGitAuthorMode()
     {
+
+
+
         // Given
         var commit1 = _repo.Commit("First commit from author", author, author, commitOptions);
         var commit2 = _repo.Commit("First commit from committer1", author, committer1, commitOptions);

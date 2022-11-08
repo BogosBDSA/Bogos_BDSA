@@ -21,6 +21,7 @@ public class gitInsightTests : IDisposable
     testRepo.Commit("second commit",signature2,signature2,options); 
     testRepo.Commit("third commit",signature3,signature3,options); 
     testRepo.Commit("last commit",signature4,signature4,options);  
+
     }
 
     [Fact]

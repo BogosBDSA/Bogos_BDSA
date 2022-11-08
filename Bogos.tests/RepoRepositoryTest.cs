@@ -8,13 +8,10 @@ namespace Bogos.tests;
 public class RepoRepositoryTest : IDisposable
 {
     private readonly GitContext _context;
-    private readonly RepoRepository _repository;
-    readonly string _BranchName = "origin/RepoRepositoryTest";
-    readonly Commit commit1, commit2, commit3;
-    readonly CommitOptions commitOptions;
-    readonly Signature _author, _committer1, _committer2;
-    readonly string _workingPath;
-    readonly Repository _repo;
+    private readonly GitRepoRepository _repository;
+    readonly GitCommit _commit1, _commit2, _commit3;
+    readonly GitSignature _author, _committer1, _committer2;
+    readonly GitRepo _repo;
 
 
     public RepoRepositoryTest()
@@ -26,33 +23,47 @@ public class RepoRepositoryTest : IDisposable
         var context = new GitContext(builder.Options);
         context.Database.EnsureCreated();
 
-        _workingPath = Repository.Init(@"./testRepoAuthorMode");
-        _repo = new Repository(_workingPath);
+        _repo = new GitRepo();
 
-        _author = new Signature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20));
-        _committer1 = new Signature("Clarpat", "dw2@bout.it", new DateTime(2022, 03, 10, 3, 10, 20));
-        _committer2 = new Signature("Sigmo", "dw3@bout.it", new DateTime(2020, 05, 10, 12, 55, 20));
+        _author = new GitSignature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20));
+        _committer1 = new GitSignature("Clarpat", "dw2@bout.it", new DateTime(2022, 03, 10, 3, 10, 20));
+        _committer2 = new GitSignature("Sigmo", "dw3@bout.it", new DateTime(2020, 05, 10, 12, 55, 20));
 
-        commitOptions = new();
-        commitOptions.AllowEmptyCommit = true;
+        _commit1 = new GitCommit(_repo, _author, "Init commit", sha: "1");
+        _commit2 = new GitCommit(_repo, _committer1, "First commit from committer1", sha: "2");
+        _commit3 = new GitCommit(_repo, _committer2, "First commit from committer2", sha: "3");
 
-        if (_repo.Commits.Count() == 0) _repo.Commit("Initial", _author, _author, commitOptions);
-        if (_repo.Branches[_BranchName] == null) _repo.CreateBranch(_BranchName);
-
-        Commands.Checkout(_repo, _repo.Branches[_BranchName]);
-
-
-        commit1 = _repo.Commit("First commit from author", _author, _author, commitOptions);
-        commit2 = _repo.Commit("First commit from committer1", _author, _committer1, commitOptions);
-        commit3 = _repo.Commit("First commit from committer2", _author, _committer2, commitOptions);
-
-        context.repos.Add(new GitRepo(_repo, "1"));
+        _repo.commits.Add(_commit1);
+        _repo.commits.Add(_commit2);
+        _repo.commits.Add(_commit3);
+        context.Repos.Add(_repo);
 
         context.SaveChanges();
+        _context = context;
     }
 
+
+
     [Fact]
-    public void Create_usingGitRepository_shouldreturnStatusCREATED() { }
+    public void Create_Using_GitRepo_Should_Return_Status_CREATED()
+    {
+        // Arrange
+        var testRepo = new GitRepo();
+        var expected = Status.CREATED;
+
+        // Act
+        var result = _repository.CreateRepo(testRepo);
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+
+
+
+
+
+    //
     public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
     public void GetAllCommits_shouldreturnalistof3Commit_forarepowith3commits() { }
     public void GetAllRepos_ShouldReturnAlistOf2Repositories_forDBwith2Repositories() { }
@@ -63,9 +74,6 @@ public class RepoRepositoryTest : IDisposable
 
     public void Dispose()
     {
-        Commands.Checkout(_repo, _repo.Branches["master"]);
-        _repo.Branches.Remove(_BranchName);
-        _repo.Dispose();
         _context.Dispose();
     }
 }
