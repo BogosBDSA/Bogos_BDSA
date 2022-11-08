@@ -13,10 +13,8 @@ public class GitRepoRepository : IGitRepoRepository
     public Status CreateRepo(GitRepo repo)
     {
         if (repo.commits.Count() == 0) return Status.EMPTYREPO;
-        var entity = _Context.Repos
-                    .Select(c => c)
-                    .Where(c => c.commits.First().Sha == repo.commits.First().Sha)
-                    .First();
+        GitRepo? entity = _Context.Repos
+                            .FirstOrDefault(c => c.commits.FirstOrDefault().Sha == repo.commits.FirstOrDefault().Sha);
 
         if (entity != null) return Status.CONFLICT;
         _Context.Repos.Add(repo);

@@ -14,6 +14,7 @@ public class RepoRepositoryTest : IDisposable
 
     public RepoRepositoryTest()
     {
+
         var connection = new SqliteConnection("Filename=:memory:");
         connection.Open();
         var builder = new DbContextOptionsBuilder<GitContext>()
@@ -23,6 +24,7 @@ public class RepoRepositoryTest : IDisposable
 
         var _RepoWithCommits = new GitRepo();
         var _RepoWithoutCommits = new GitRepo();
+        var _TotallyNewRepo = new GitRepo();
 
         var _author = new GitSignature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20));
         var _committer1 = new GitSignature("Clarpat", "dw2@bout.it", new DateTime(2022, 03, 10, 3, 10, 20));
@@ -35,13 +37,19 @@ public class RepoRepositoryTest : IDisposable
         _RepoWithCommits.commits.Add(_commit1);
         _RepoWithCommits.commits.Add(_commit2);
         _RepoWithCommits.commits.Add(_commit3);
+
         context.Repos.Add(_RepoWithCommits);
         context.Repos.Add(_RepoWithoutCommits);
 
         context.SaveChanges();
+
+        var _commit4 = new GitCommit(_TotallyNewRepo, _committer2, "First commit from committer2", sha: "4");
+        _TotallyNewRepo.commits.Add(_commit4);
+
+
         _context = context;
         _repository = new GitRepoRepository(_context);
-        _AllRepos = new() { _RepoWithCommits, _RepoWithoutCommits };
+        _AllRepos = new() { _RepoWithCommits, _RepoWithoutCommits, _TotallyNewRepo };
     }
 
 
@@ -49,7 +57,8 @@ public class RepoRepositoryTest : IDisposable
     [Theory]
     [InlineData(0, Status.CONFLICT)]
     [InlineData(1, Status.EMPTYREPO)]
-    public void Create_Using_GitRepo_Should_Return_Status_CREATED(int repoIndex, Status status)
+    [InlineData(2, Status.CREATED)]
+    public void Create_Using_GitRepo_Should_Return__StatusCONFLICT_EMPTYREPO_CREATED(int repoIndex, Status status)
     {
 
         // Arrange
@@ -62,11 +71,6 @@ public class RepoRepositoryTest : IDisposable
         // Assert
         result.Should().Be(expected);
     }
-
-
-
-
-
 
     //
     public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
