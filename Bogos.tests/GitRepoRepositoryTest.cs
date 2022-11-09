@@ -55,7 +55,7 @@ public class GitRepoRepositoryTest : IDisposable
         _context = context;
         _repository = new GitRepoRepository(_context);
         _AllReposwithempty = new() { _RepoWithCommits, _RepoWithoutCommits, _TotallyNewRepo };
-        _AllRepos = new() { _RepoWithCommits, _TotallyNewRepo };
+        _AllRepos = new() { _RepoWithCommits, _RepoWithoutCommits };
     }
 
 
@@ -77,7 +77,8 @@ public class GitRepoRepositoryTest : IDisposable
     }
 
     [Fact]
-    public void CreateRepo_using_repo_with_same_uri_as_existing_repo_should_return_CONFLICT() {
+    public void CreateRepo_using_repo_with_same_uri_as_existing_repo_should_return_CONFLICT()
+    {
         // Arrange
         var repoWithSameUri = new GitRepo();
         repoWithSameUri.Uri = _AllRepos[0].Uri;
@@ -93,7 +94,7 @@ public class GitRepoRepositoryTest : IDisposable
     public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
 
     [Fact]
-    public void GetAllRepos_ShouldReturnAlistOf3Repositories_forDBwith3Repositories() 
+    public void ReadAllRepos_ShouldReturnAlistOf3Repositories_forDBwith3Repositories()
     {
         //Arrange
         var expected = _AllRepos;
@@ -123,10 +124,12 @@ public class GitRepoRepositoryTest : IDisposable
 
     }
     public void GetRepoByUri_ShouldReturnRepoWithNameX_ForARepoWithNameX() { }
+
+
     [Theory]
     [InlineData(0, Status.UPDATED)]
     public void UpdateRepo_ShouldReturnStatusUPDATED_ForRepoWithID1(int repoIndex, Status status)
-     { 
+    {
         //arrange
         var expected = status;
         var repo = _AllRepos[repoIndex];
