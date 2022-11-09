@@ -73,6 +73,7 @@ public class GitRepoRepositoryTest : IDisposable
     }
 
     public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
+
     [Fact]
     public void GetAllRepos_ShouldReturnAlistOf3Repositories_forDBwith3Repositories() 
     {
@@ -85,7 +86,24 @@ public class GitRepoRepositoryTest : IDisposable
         //Assert
         result.Should().BeEquivalentTo(expected);
     }
-    public void GetRepoByID_ShouldReturnTheFirstRepoWithID1_ForInput1() { }
+
+    [Theory]
+    [InlineData(0, 1)]
+    [InlineData(3, 4)]
+    public void ReadRepoByID_should_return_the_correct_GitRepo_or_null_for_inputs(int repoIndex, int repoId)
+    {
+        // Arrange
+        var inRange = repoIndex >= 0 && repoIndex < _AllRepos.Count();
+        var expected = inRange ? _AllRepos[repoIndex] : null;
+
+        // Act 
+        var result = _repository.ReadRepoByID(repoId);
+
+        // Assert
+        result.Should().Be(expected);
+
+
+    }
     public void GetRepoByUri_ShouldReturnRepoWithNameX_ForARepoWithNameX() { }
     [Theory]
     [InlineData(0, Status.UPDATED)]
