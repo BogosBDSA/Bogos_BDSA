@@ -25,6 +25,10 @@ public class GitRepoRepositoryTest : IDisposable
         var _RepoWithCommits = new GitRepo();
         var _RepoWithoutCommits = new GitRepo();
         var _TotallyNewRepo = new GitRepo();
+       
+       _RepoWithCommits.Uri = new Uri("http://www.github.com/_RepoWithCommits.git");
+       _RepoWithoutCommits.Uri = new Uri("http://www.github.com/_RepoWithoutCommits.git");
+       _TotallyNewRepo.Uri = new Uri("http://www.github.com/_TotallyNewRepo.git");
 
         var _author = new GitSignature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20));
         var _committer1 = new GitSignature("Clarpat", "dw2@bout.it", new DateTime(2022, 03, 10, 3, 10, 20));
@@ -74,7 +78,22 @@ public class GitRepoRepositoryTest : IDisposable
     public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
     public void GetAllRepos_ShouldReturnAlistOf2Repositories_forDBwith2Repositories() { }
     public void GetRepoByID_ShouldReturnTheFirstRepoWithID1_ForInput1() { }
-    public void GetRepoByUri_ShouldReturnRepoWithNameX_ForARepoWithNameX() { }
+
+    [Fact]
+
+    public void ReadRepoByUri_Should_Return_RepoWithoutCommits_given_RepoWithoutCommitsUri() {
+        // Arrange 
+        
+        var repo = _AllRepos[1];
+        var expected = repo;
+
+        // Act 
+        var result = _repository.ReadRepoByUri(_AllRepos[1].Uri!);
+        
+        // Assert
+        result.Should().Be(expected);
+        
+     }
     public void UpdateRepo_ShouldReturnStatusUPDATED_ForRepoWithID1() { }
 
     public void Dispose()

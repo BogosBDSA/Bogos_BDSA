@@ -40,8 +40,23 @@ public class GitRepoRepository : IGitRepoRepository
 
     public GitRepo ReadRepoByUri(string uri)
     {
-        throw new NotImplementedException();
+       var tempUri = new Uri(uri);
+        return ReadRepoByUri(tempUri);
     }
+
+    public GitRepo ReadRepoByUri(Uri uri){
+
+        // foreach(var repo in _Context.Repos){
+        //     if(uri == repo.Uri){
+        //         return repo;
+        //     }
+        // }
+        // return null;
+
+        return _Context.Repos.FirstOrDefault(k => k.Uri == uri);
+
+    }
+
     // Up for grabs
     public Status UpdateRepo(GitRepo repo)
     {
