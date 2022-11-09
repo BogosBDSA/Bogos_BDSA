@@ -14,7 +14,7 @@ public class GitRepoRepository : IGitRepoRepository
     {
         // Make sure repo doesn't alredy exist in repository
         GitRepo? entity = _Context.Repos
-                            .FirstOrDefault(r => r == repo);
+                            .FirstOrDefault(r => r.Uri.Equals(repo.Uri));
         if (entity != null) return Status.CONFLICT;
 
         // Add repo to repository
