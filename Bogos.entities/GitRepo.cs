@@ -12,9 +12,11 @@ public class GitRepo
     public GitRepo()
     {
     }
-    public GitRepo(Repository repo, string uri, string branchName = "")
+    public GitRepo(string uri, string branchName = "")
     {
+        // FUNKTIONALITET med at ødelægge det
 
+        var repo = new Repository();
         Commits = new List<GitCommit>();
         if (branchName != "" && repo.Branches[branchName] != null) { Commands.Checkout(repo, branchName); }
 
