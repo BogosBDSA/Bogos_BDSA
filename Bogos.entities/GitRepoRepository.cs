@@ -30,7 +30,12 @@ public class GitRepoRepository : IGitRepoRepository
 
     public IEnumerable<GitRepo> ReadAllRepos()
     {
-        throw new NotImplementedException();
+        var _listOfReposInContext = new List<GitRepo>();
+        foreach (var repo in _Context.Repos)
+        {
+        _listOfReposInContext.Add(repo);
+        }
+        return _listOfReposInContext;
     }
 
     public GitRepo? ReadRepoByID(int id)
@@ -45,7 +50,11 @@ public class GitRepoRepository : IGitRepoRepository
     }
     // Up for grabs
     public Status UpdateRepo(GitRepo repo)
-    {
-        throw new NotImplementedException();
+    {   
+        var state = _Context.Update(repo);
+        if(state.State==EntityState.Modified)
+        {
+        return Status.UPDATED;
+        } else return Status.NOTFOUND;
     }
 }
