@@ -30,7 +30,12 @@ public class GitRepoRepository : IGitRepoRepository
 
     public IEnumerable<GitRepo> ReadAllRepos()
     {
-        throw new NotImplementedException();
+        var _listOfReposInContext = new List<GitRepo>();
+        foreach (var repo in _Context.Repos)
+        {
+        _listOfReposInContext.Add(repo);
+        }
+        return _listOfReposInContext;
     }
 
     public GitRepo ReadRepoByID(int id)
