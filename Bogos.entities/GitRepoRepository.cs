@@ -49,7 +49,11 @@ public class GitRepoRepository : IGitRepoRepository
     }
     // Up for grabs
     public Status UpdateRepo(GitRepo repo)
-    {
-        throw new NotImplementedException();
+    {   
+        var state = _Context.Update(repo);
+        if(state.State==EntityState.Modified)
+        {
+        return Status.UPDATED;
+        } else return Status.NOTFOUND;
     }
 }

@@ -10,6 +10,7 @@ public class GitRepoRepositoryTest : IDisposable
     private readonly GitContext _context;
     private readonly GitRepoRepository _repository;
     private readonly List<GitRepo> _AllRepos;
+    private readonly List<GitRepo> _AllReposwithempty;
 
 
     public GitRepoRepositoryTest()
@@ -49,7 +50,8 @@ public class GitRepoRepositoryTest : IDisposable
 
         _context = context;
         _repository = new GitRepoRepository(_context);
-        _AllRepos = new() { _RepoWithCommits, _RepoWithoutCommits, _TotallyNewRepo };
+        _AllReposwithempty = new() { _RepoWithCommits, _RepoWithoutCommits, _TotallyNewRepo };
+        _AllRepos = new() { _RepoWithCommits, _TotallyNewRepo };
     }
 
 
@@ -70,9 +72,8 @@ public class GitRepoRepositoryTest : IDisposable
         result.Should().Be(expected);
     }
 
-    //
     public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
-    
+    [Fact]
     public void GetAllRepos_ShouldReturnAlistOf3Repositories_forDBwith3Repositories() 
     {
         //Arrange
@@ -86,7 +87,22 @@ public class GitRepoRepositoryTest : IDisposable
     }
     public void GetRepoByID_ShouldReturnTheFirstRepoWithID1_ForInput1() { }
     public void GetRepoByUri_ShouldReturnRepoWithNameX_ForARepoWithNameX() { }
-    public void UpdateRepo_ShouldReturnStatusUPDATED_ForRepoWithID1() { }
+    [Theory]
+    [InlineData(0, Status.UPDATED)]
+    public void UpdateRepo_ShouldReturnStatusUPDATED_ForRepoWithID1(int repoIndex, Status status)
+     { 
+        //arrange
+        var expected = status;
+        var repo = _AllRepos[repoIndex];
+        var _author = new GitSignature("bobo", "dut@to.it", new DateTime(2022, 06, 10, 12, 10, 20));
+        var newcommit = new GitCommit(repo, _author, "more stuff", sha: "4");
+        //act
+        repo.Commits.Add(newcommit);
+        var result = _repository.UpdateRepo(repo);
+
+        //assert
+        result.Should().Be(expected);
+    }
 
     public void Dispose()
     {
