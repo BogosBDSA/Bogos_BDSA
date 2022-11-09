@@ -62,7 +62,7 @@ public class GitRepoRepositoryTest : IDisposable
     public void CreateRepo_using_GitRepo_should_return__expected_status(int repoIndex, Status status)
     {
         // Arrange
-        var testRepo = _AllRepos[repoIndex];
+        var testRepo = _AllReposwithempty[repoIndex];
         var expected = status;
 
         // Act 
