@@ -27,6 +27,10 @@ public class GitRepoRepositoryTest : IDisposable
         var _RepoWithoutCommits = new GitRepo();
         var _TotallyNewRepo = new GitRepo();
 
+        _RepoWithCommits.Uri = new Uri("http://www.github.com/_RepoWithCommits.git");
+        _RepoWithoutCommits.Uri = new Uri("http://www.github.com/_RepoWithoutCommits.git");
+        _TotallyNewRepo.Uri = new Uri("http://www.github.com/_TotallyNewRepo.git");
+
         var _author = new GitSignature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20));
         var _committer1 = new GitSignature("Clarpat", "dw2@bout.it", new DateTime(2022, 03, 10, 3, 10, 20));
         var _committer2 = new GitSignature("Sigmo", "dw3@bout.it", new DateTime(2020, 05, 10, 12, 55, 20));
@@ -72,6 +76,20 @@ public class GitRepoRepositoryTest : IDisposable
         result.Should().Be(expected);
     }
 
+    [Fact]
+    public void CreateRepo_using_repo_with_same_uri_as_existing_repo_should_return_CONFLICT() {
+        // Arrange
+        var repoWithSameUri = new GitRepo();
+        repoWithSameUri.Uri = _AllRepos[0].Uri;
+
+        // Act
+        var result = _repository.CreateRepo(repoWithSameUri);
+
+        // Assert
+        result.Should().Be(Status.CONFLICT);
+    }
+
+    //
     public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
 
     [Fact]
