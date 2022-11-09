@@ -123,7 +123,21 @@ public class GitRepoRepositoryTest : IDisposable
 
 
     }
-    public void GetRepoByUri_ShouldReturnRepoWithNameX_ForARepoWithNameX() { }
+
+    [Fact]
+    public void ReadRepoByUri_Should_Return_RepoWithoutCommits_given_RepoWithoutCommitsUri() {
+        // Arrange 
+
+        var repo = _AllRepos[1];
+        var expected = repo;
+
+        // Act 
+        var result = _repository.ReadRepoByUri(_AllRepos[1].Uri!);
+
+        // Assert
+        result.Should().Be(expected);
+
+     }
 
 
     [Theory]

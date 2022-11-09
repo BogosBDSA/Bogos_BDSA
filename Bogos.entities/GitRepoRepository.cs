@@ -50,18 +50,7 @@ public class GitRepoRepository : IGitRepoRepository
         return ReadRepoByUri(tempUri);
     }
 
-    public GitRepo ReadRepoByUri(Uri uri){
-
-        // foreach(var repo in _Context.Repos){
-        //     if(uri == repo.Uri){
-        //         return repo;
-        //     }
-        // }
-        // return null;
-
-        return _Context.Repos.FirstOrDefault(k => k.Uri == uri);
-
-    }
+    public GitRepo ReadRepoByUri(Uri uri) => _Context.Repos.FirstOrDefault(k => k.Uri == uri);
 
     // Up for grabs
     public Status UpdateRepo(GitRepo repo)
