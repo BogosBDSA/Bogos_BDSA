@@ -10,6 +10,7 @@ public class GitRepoRepositoryTest : IDisposable
     private readonly GitContext _context;
     private readonly GitRepoRepository _repository;
     private readonly List<GitRepo> _AllRepos;
+    private readonly List<GitRepo> _AllReposwithempty;
 
 
     public GitRepoRepositoryTest()
@@ -53,7 +54,8 @@ public class GitRepoRepositoryTest : IDisposable
 
         _context = context;
         _repository = new GitRepoRepository(_context);
-        _AllRepos = new() { _RepoWithCommits, _RepoWithoutCommits, _TotallyNewRepo };
+        _AllReposwithempty = new() { _RepoWithCommits, _RepoWithoutCommits, _TotallyNewRepo };
+        _AllRepos = new() { _RepoWithCommits, _RepoWithoutCommits };
     }
 
 
@@ -64,7 +66,7 @@ public class GitRepoRepositoryTest : IDisposable
     public void CreateRepo_using_GitRepo_should_return__expected_status(int repoIndex, Status status)
     {
         // Arrange
-        var testRepo = _AllRepos[repoIndex];
+        var testRepo = _AllReposwithempty[repoIndex];
         var expected = status;
 
         // Act 
@@ -74,27 +76,72 @@ public class GitRepoRepositoryTest : IDisposable
         result.Should().Be(expected);
     }
 
+    [Fact]
+    public void CreateRepo_using_repo_with_same_uri_as_existing_repo_should_return_CONFLICT()
+    {
+        // Arrange
+        var repoWithSameUri = new GitRepo();
+        repoWithSameUri.Uri = _AllRepos[0].Uri;
+
+        // Act
+        var result = _repository.CreateRepo(repoWithSameUri);
+
+        // Assert
+        result.Should().Be(Status.CONFLICT);
+    }
+
     //
     public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
-    public void GetAllRepos_ShouldReturnAlistOf2Repositories_forDBwith2Repositories() { }
-    public void GetRepoByID_ShouldReturnTheFirstRepoWithID1_ForInput1() { }
 
     [Fact]
+    public void ReadAllRepos_ShouldReturnAlistOf3Repositories_forDBwith3Repositories()
+    {
+        //Arrange
+        var expected = _AllRepos;
 
-    public void ReadRepoByUri_Should_Return_RepoWithoutCommits_given_RepoWithoutCommitsUri() {
-        // Arrange 
-        
-        var repo = _AllRepos[1];
-        var expected = repo;
+        //Act 
+        var result = _repository.ReadAllRepos();
+
+        //Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Theory]
+    [InlineData(0, 1)]
+    [InlineData(3, 4)]
+    public void ReadRepoByID_should_return_the_correct_GitRepo_or_null_for_inputs(int repoIndex, int repoId)
+    {
+        // Arrange
+        var inRange = repoIndex >= 0 && repoIndex < _AllRepos.Count();
+        var expected = inRange ? _AllRepos[repoIndex] : null;
 
         // Act 
-        var result = _repository.ReadRepoByUri(_AllRepos[1].Uri!);
-        
+        var result = _repository.ReadRepoByID(repoId);
+
         // Assert
         result.Should().Be(expected);
-        
-     }
-    public void UpdateRepo_ShouldReturnStatusUPDATED_ForRepoWithID1() { }
+
+
+    }
+    public void GetRepoByUri_ShouldReturnRepoWithNameX_ForARepoWithNameX() { }
+
+
+    [Theory]
+    [InlineData(0, Status.UPDATED)]
+    public void UpdateRepo_ShouldReturnStatusUPDATED_ForRepoWithID1(int repoIndex, Status status)
+    {
+        //arrange
+        var expected = status;
+        var repo = _AllRepos[repoIndex];
+        var _author = new GitSignature("bobo", "dut@to.it", new DateTime(2022, 06, 10, 12, 10, 20));
+        var newcommit = new GitCommit(repo, _author, "more stuff", sha: "4");
+        //act
+        repo.Commits.Add(newcommit);
+        var result = _repository.UpdateRepo(repo);
+
+        //assert
+        result.Should().Be(expected);
+    }
 
     public void Dispose()
     {

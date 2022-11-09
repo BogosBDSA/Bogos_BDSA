@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bogos.core\Bogos.core.csproj" />
+    <ProjectReference Include="..\Bogos.entities\Bogos.entities.csproj" />
   </ItemGroup>
 
 </Project>

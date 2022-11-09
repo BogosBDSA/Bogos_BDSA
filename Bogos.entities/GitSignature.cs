@@ -35,4 +35,9 @@ public class GitSignature
         commits = new List<GitCommit>();
 
     }
+
+    public override string ToString()
+    {
+        return $"{Name} {Email}";
+    }
 }
