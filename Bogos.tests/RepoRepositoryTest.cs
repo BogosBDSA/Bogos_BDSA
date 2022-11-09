@@ -75,7 +75,24 @@ public class RepoRepositoryTest : IDisposable
     //
     public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
     public void GetAllRepos_ShouldReturnAlistOf2Repositories_forDBwith2Repositories() { }
-    public void GetRepoByID_ShouldReturnTheFirstRepoWithID1_ForInput1() { }
+
+    [Theory]
+    [InlineData(0, 1)]
+    [InlineData(3, 4)]
+    public void ReadRepoByID_should_return_the_correct_GitRepo_or_null_for_inputs(int repoIndex, int repoId)
+    {
+        // Arrange
+        var inRange = repoIndex >= 0 && repoIndex < _AllRepos.Count();
+        var expected = inRange ? _AllRepos[repoIndex] : null;
+
+        // Act 
+        var result = _repository.ReadRepoByID(repoId);
+
+        // Assert
+        result.Should().Be(expected);
+
+
+    }
     public void GetRepoByUri_ShouldReturnRepoWithNameX_ForARepoWithNameX() { }
     public void UpdateRepo_ShouldReturnStatusUPDATED_ForRepoWithID1() { }
 

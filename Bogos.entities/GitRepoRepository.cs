@@ -34,10 +34,11 @@ public class GitRepoRepository : IGitRepoRepository
         throw new NotImplementedException();
     }
 
-    public GitRepo ReadRepoByID(int id)
+    public GitRepo? ReadRepoByID(int id)
     {
-        throw new NotImplementedException();
+        return _Context.Repos.FirstOrDefault(k => k.Id == id);
     }
+
 
     public GitRepo ReadRepoByUri(string uri)
     {
