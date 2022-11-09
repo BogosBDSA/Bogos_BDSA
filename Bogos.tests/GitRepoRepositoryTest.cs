@@ -5,14 +5,14 @@ using NSubstitute;
 
 namespace Bogos.tests;
 
-public class RepoRepositoryTest : IDisposable
+public class GitRepoRepositoryTest : IDisposable
 {
     private readonly GitContext _context;
     private readonly GitRepoRepository _repository;
     private readonly List<GitRepo> _AllRepos;
 
 
-    public RepoRepositoryTest()
+    public GitRepoRepositoryTest()
     {
 
         var connection = new SqliteConnection("Filename=:memory:");
@@ -56,11 +56,9 @@ public class RepoRepositoryTest : IDisposable
 
     [Theory]
     [InlineData(0, Status.CONFLICT)]
-    [InlineData(1, Status.EMPTYREPO)]
     [InlineData(2, Status.CREATED)]
     public void CreateRepo_using_GitRepo_should_return__expected_status(int repoIndex, Status status)
     {
-
         // Arrange
         var testRepo = _AllRepos[repoIndex];
         var expected = status;

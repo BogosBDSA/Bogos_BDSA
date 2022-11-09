@@ -25,4 +25,15 @@ public class GitRepo
         Uri = new Uri(uri);
     }
 
+    public override bool Equals(object? obj)
+    {
+        //Check for null and compare run-time types.
+        if ((obj == null) || ! this.GetType().Equals(obj.GetType()))
+        {
+            return false;
+        } 
+        var other = (GitRepo) obj;
+        return this.Uri == other.Uri;
+    }
+
 }

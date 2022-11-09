@@ -12,16 +12,15 @@ public class GitRepoRepository : IGitRepoRepository
 
     public Status CreateRepo(GitRepo repo)
     {
-        if (repo.Commits.Count() == 0) return Status.EMPTYREPO;
+        // Make sure repo doesn't alredy exist in repository
         GitRepo? entity = _Context.Repos
-                            .FirstOrDefault(c => c.Commits.FirstOrDefault().Sha == repo.Commits.FirstOrDefault().Sha && c.Uri == repo.Uri);
-
+                            .FirstOrDefault(r => r == repo);
         if (entity != null) return Status.CONFLICT;
+
+        // Add repo to repository
         _Context.Repos.Add(repo);
         _Context.SaveChanges();
         return Status.CREATED;
-
-
     }
 
     public Status DeleteRepo(GitRepo repo)

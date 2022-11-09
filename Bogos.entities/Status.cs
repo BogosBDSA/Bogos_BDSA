@@ -8,6 +8,4 @@ public enum Status
     NOTFOUND,
     BADREQUEST,
     CONFLICT,
-    EMPTYREPO,
-
 }
