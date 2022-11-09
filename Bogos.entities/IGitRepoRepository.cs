@@ -2,9 +2,9 @@
 namespace Bogos.entities;
 public interface IGitRepoRepository
 {
-    public GitRepo GetRepoByID(int ID);
-    public GitRepo GetRepoByUri(string URI);
-    public IEnumerable<GitRepo> GetAllRepos();
+    public GitRepo ReadRepoByID(int id);
+    public GitRepo ReadRepoByUri(string uri);
+    public IEnumerable<GitRepo> ReadAllRepos();
     public Status DeleteRepo(GitRepo repo);
     public Status UpdateRepo(GitRepo repo);
     public Status CreateRepo(GitRepo repo);

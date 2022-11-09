@@ -13,7 +13,7 @@ public class GitContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<GitRepo>().HasMany(c => c.commits).WithOne(k => k.belongsTo);
+        modelBuilder.Entity<GitRepo>().HasMany(c => c.Commits).WithOne(k => k.belongsTo);
         modelBuilder.Entity<GitCommit>().HasOne(c => c.Committer).WithMany(k => k.commits);
         //optionsBuilder.UseNpgsql(@"Server=127.0.0.1;Port=5430;Database=bogosdb;User Id=postgres;Password=mypassword;");
 

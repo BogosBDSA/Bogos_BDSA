@@ -12,9 +12,9 @@ public class GitRepoRepository : IGitRepoRepository
 
     public Status CreateRepo(GitRepo repo)
     {
-        if (repo.commits.Count() == 0) return Status.EMPTYREPO;
+        if (repo.Commits.Count() == 0) return Status.EMPTYREPO;
         GitRepo? entity = _Context.Repos
-                            .FirstOrDefault(c => c.commits.FirstOrDefault().Sha == repo.commits.FirstOrDefault().Sha);
+                            .FirstOrDefault(c => c.Commits.FirstOrDefault().Sha == repo.Commits.FirstOrDefault().Sha && c.Uri == repo.Uri);
 
         if (entity != null) return Status.CONFLICT;
         _Context.Repos.Add(repo);
@@ -29,21 +29,21 @@ public class GitRepoRepository : IGitRepoRepository
         throw new NotImplementedException();
     }
 
-    public IEnumerable<GitRepo> GetAllRepos()
+    public IEnumerable<GitRepo> ReadAllRepos()
     {
         throw new NotImplementedException();
     }
 
-    public GitRepo GetRepoByID(int ID)
+    public GitRepo ReadRepoByID(int id)
     {
         throw new NotImplementedException();
     }
 
-    public GitRepo GetRepoByUri(string URI)
+    public GitRepo ReadRepoByUri(string uri)
     {
         throw new NotImplementedException();
     }
-
+    // Up for grabs
     public Status UpdateRepo(GitRepo repo)
     {
         throw new NotImplementedException();

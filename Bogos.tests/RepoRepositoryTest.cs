@@ -34,9 +34,9 @@ public class RepoRepositoryTest : IDisposable
         var _commit2 = new GitCommit(_RepoWithCommits, _committer1, "First commit from committer1", sha: "2");
         var _commit3 = new GitCommit(_RepoWithCommits, _committer2, "First commit from committer2", sha: "3");
 
-        _RepoWithCommits.commits.Add(_commit1);
-        _RepoWithCommits.commits.Add(_commit2);
-        _RepoWithCommits.commits.Add(_commit3);
+        _RepoWithCommits.Commits.Add(_commit1);
+        _RepoWithCommits.Commits.Add(_commit2);
+        _RepoWithCommits.Commits.Add(_commit3);
 
         context.Repos.Add(_RepoWithCommits);
         context.Repos.Add(_RepoWithoutCommits);
@@ -44,7 +44,7 @@ public class RepoRepositoryTest : IDisposable
         context.SaveChanges();
 
         var _commit4 = new GitCommit(_TotallyNewRepo, _committer2, "First commit from committer2", sha: "4");
-        _TotallyNewRepo.commits.Add(_commit4);
+        _TotallyNewRepo.Commits.Add(_commit4);
 
 
         _context = context;
@@ -58,14 +58,14 @@ public class RepoRepositoryTest : IDisposable
     [InlineData(0, Status.CONFLICT)]
     [InlineData(1, Status.EMPTYREPO)]
     [InlineData(2, Status.CREATED)]
-    public void Create_Using_GitRepo_Should_Return__StatusCONFLICT_EMPTYREPO_CREATED(int repoIndex, Status status)
+    public void CreateRepo_using_GitRepo_should_return__expected_status(int repoIndex, Status status)
     {
 
         // Arrange
         var testRepo = _AllRepos[repoIndex];
         var expected = status;
 
-        // Act
+        // Act 
         var result = _repository.CreateRepo(testRepo);
 
         // Assert

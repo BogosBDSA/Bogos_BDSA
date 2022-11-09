@@ -8,19 +8,19 @@ public class GitRepo
 
     // Måske bruge første commit til at samligne.
     public Uri? Uri { get; set; }
-    public virtual ICollection<GitCommit> commits { get; set; } = new List<GitCommit>();
+    public virtual ICollection<GitCommit> Commits { get; set; } = new List<GitCommit>();
     public GitRepo()
     {
     }
     public GitRepo(Repository repo, string uri, string branchName = "")
     {
 
-        commits = new List<GitCommit>();
+        Commits = new List<GitCommit>();
         if (branchName != "" && repo.Branches[branchName] != null) { Commands.Checkout(repo, branchName); }
 
-        commits = repo.Commits.Select(commit => new GitCommit(this, commit)).ToList();
+        Commits = repo.Commits.Select(commit => new GitCommit(this, commit)).ToList();
 
-        this.commits.ToList().Sort((a, b) => a.CommitterWhen.CompareTo(b.CommitterWhen));
+        this.Commits.ToList().Sort((a, b) => a.CommitterWhen.CompareTo(b.CommitterWhen));
 
         Uri = new Uri(uri);
     }
