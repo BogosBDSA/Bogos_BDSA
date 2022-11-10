@@ -28,7 +28,7 @@ namespace Bogos.tests
         {
 
             //arrange
-            var expected = new GitFrequencyModeData();
+            var expected = new GitFrequencyModeDTO();
             expected.DateToFrequency.Add("05-05-1945", 1);
             expected.DateToFrequency.Add("10-12-2010", 2);
             expected.DateToFrequency.Add("31-01-2022", 1);

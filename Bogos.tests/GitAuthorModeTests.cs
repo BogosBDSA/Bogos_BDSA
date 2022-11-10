@@ -33,17 +33,17 @@ public class GitAuthorModeTests
     {
 
         // Arrange
-        var expected = new GitAuthorModeData();
+        var expected = new GitAuthorModeDTO();
 
-        var FrequencyMode1 = new GitFrequencyModeData();
+        var FrequencyMode1 = new GitFrequencyModeDTO();
         FrequencyMode1.DateToFrequency.Add(author.When.ToString("dd-MM-yyyy"), 1);
         expected.AuthorToDateAndFrequency.Add(author.ToString()!, FrequencyMode1);
 
-        var FrequencyMode2 = new GitFrequencyModeData();
+        var FrequencyMode2 = new GitFrequencyModeDTO();
         FrequencyMode2.DateToFrequency.Add(committer1.When.ToString("dd-MM-yyyy"), 3);
         expected.AuthorToDateAndFrequency.Add(committer1.ToString()!, FrequencyMode2);
 
-        var FrequencyMode3 = new GitFrequencyModeData();
+        var FrequencyMode3 = new GitFrequencyModeDTO();
         FrequencyMode3.DateToFrequency.Add(committer2.When.ToString("dd-MM-yyyy"), 1);
         expected.AuthorToDateAndFrequency.Add(committer2.ToString()!, FrequencyMode3);
 

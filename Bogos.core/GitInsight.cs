@@ -3,10 +3,10 @@ namespace Bogos.core
 
     public static class GitInsight
     {
-        public static GitFrequencyModeData FrequencyMode(GitRepo Repo)
+        public static GitFrequencyModeDTO FrequencyMode(GitRepo Repo)
         {
             var dates = new List<String>();
-            var data = new GitFrequencyModeData();
+            var data = new GitFrequencyModeDTO();
 
             foreach (var commit in Repo.Commits)
             {
@@ -27,13 +27,13 @@ namespace Bogos.core
             return data;
         }
 
-        public static GitAuthorModeData AuthorMode(GitRepo Repo)
+        public static GitAuthorModeDTO AuthorMode(GitRepo Repo)
         {
-            var data = new GitAuthorModeData();
+            var data = new GitAuthorModeDTO();
 
             foreach (var UniqueCommitter in Repo.Commits.Select(c => c.Committer).DistinctBy(c => c.Name))
             {
-                var freqData = new GitFrequencyModeData();
+                var freqData = new GitFrequencyModeDTO();
                 var Commits = Repo.Commits
                                     .Where(c => c.Committer.Name == UniqueCommitter.Name)
                                     .GroupBy(k => new DateTime(

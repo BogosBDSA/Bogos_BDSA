@@ -9,8 +9,6 @@ public class Program
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
 
-
-
         // API
 
         // -> URI("")
