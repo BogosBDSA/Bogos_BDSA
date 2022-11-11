@@ -12,18 +12,45 @@ public class GitRepo
     public GitRepo()
     {
     }
-    public GitRepo(string uri, string branchName = "")
+    public GitRepo(string url, string branchName = "")
     {
-        // FUNKTIONALITET med at ødelægge det
+        var tempPath = "./TempRepoFolder";
+        try
+        {
+            Directory.CreateDirectory(tempPath);
+            var opt = new CloneOptions();
+            var clonedPath = Repository.Clone(url, tempPath, opt);
+            var repo = new Repository(clonedPath);
+            if (branchName != "" && repo.Branches[branchName] != null) { Commands.Checkout(repo, branchName); }
+            Commits = repo.Commits.Select(commit => new GitCommit(this, commit)).ToList();
+            // Kan muligvis fjernes, kommer an på hvordan det sorteres.
+            this.Commits.ToList().Sort((a, b) => a.CommitterWhen.CompareTo(b.CommitterWhen));
+        }
+        finally
+        {
 
-        var repo = new Repository();
-        Commits = new List<GitCommit>();
-        if (branchName != "" && repo.Branches[branchName] != null) { Commands.Checkout(repo, branchName); }
+            DeleteReadOnlyDirectory(tempPath);
+            Directory.Delete("TempRepoFolder");
 
-        Commits = repo.Commits.Select(commit => new GitCommit(this, commit)).ToList();
+        }
 
-        this.Commits.ToList().Sort((a, b) => a.CommitterWhen.CompareTo(b.CommitterWhen));
 
-        Uri = new Uri(uri);
+    }
+
+    private static void DeleteReadOnlyDirectory(string directory)
+    {
+
+        foreach (var subdirectory in Directory.EnumerateDirectories(directory))
+        {
+            DeleteReadOnlyDirectory(subdirectory);
+        }
+
+        foreach (var fileName in Directory.EnumerateFiles(directory))
+        {
+            var fileInfo = new FileInfo(fileName);
+            fileInfo.Attributes = FileAttributes.Normal;
+            fileInfo.Delete();
+        }
+        Directory.Delete(directory);
     }
 }
