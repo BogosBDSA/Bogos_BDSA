@@ -16,14 +16,14 @@ public class GitSignature
     {
         Name = sig.Name;
         Email = sig.Email;
-        When = sig.When;
+        When = sig.When.UtcDateTime;
         commits = new List<GitCommit>();
     }
     public GitSignature(string name, string email, DateTimeOffset when)
     {
         Name = name;
         Email = email;
-        When = when;
+        When = when.UtcDateTime;
         commits = new List<GitCommit>();
     }
 
@@ -31,7 +31,7 @@ public class GitSignature
     {
         Name = name;
         Email = email;
-        When = when;
+        When = when.ToUniversalTime();
         commits = new List<GitCommit>();
 
     }

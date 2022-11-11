@@ -13,12 +13,12 @@ public class GitRepoRepository : IGitRepoRepository
     public Status CreateRepo(GitRepo repo)
     {
         // Make sure repo doesn't alredy exist in repository
-        GitRepo? entity = _Context.Repos
+        GitRepo? entity = _Context.repos
                             .FirstOrDefault(r => r.Uri.Equals(repo.Uri));
         if (entity != null) return Status.CONFLICT;
 
         // Add repo to repository
-        _Context.Repos.Add(repo);
+        _Context.repos.Add(repo);
         _Context.SaveChanges();
         return Status.CREATED;
     }
@@ -31,7 +31,7 @@ public class GitRepoRepository : IGitRepoRepository
     public IEnumerable<GitRepo> ReadAllRepos()
     {
         var _listOfReposInContext = new List<GitRepo>();
-        foreach (var repo in _Context.Repos)
+        foreach (var repo in _Context.repos)
         {
         _listOfReposInContext.Add(repo);
         }
@@ -40,18 +40,20 @@ public class GitRepoRepository : IGitRepoRepository
 
     public GitRepo? ReadRepoByID(int id)
     {
-        return _Context.Repos.FirstOrDefault(k => k.Id == id);
+        return _Context.repos.FirstOrDefault(k => k.Id == id);
     }
 
 
-    public GitRepo ReadRepoByUri(string uri)
+    public GitRepo? ReadRepoByUri(string uri)
     {
        var tempUri = new Uri(uri);
         return ReadRepoByUri(tempUri);
     }
 
-    public GitRepo ReadRepoByUri(Uri uri) => _Context.Repos.FirstOrDefault(k => k.Uri == uri);
-
+    public GitRepo? ReadRepoByUri(Uri uri) {
+    return _Context.repos.FirstOrDefault(k => k.Uri.Equals(uri.AbsoluteUri));
+    } 
+    
     // Up for grabs
     public Status UpdateRepo(GitRepo repo)
     {   

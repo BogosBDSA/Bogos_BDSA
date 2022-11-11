@@ -27,13 +27,13 @@ public class GitRepoRepositoryTest : IDisposable
         var _RepoWithoutCommits = new GitRepo();
         var _TotallyNewRepo = new GitRepo();
        
-       _RepoWithCommits.Uri = new Uri("http://www.github.com/_RepoWithCommits.git");
-       _RepoWithoutCommits.Uri = new Uri("http://www.github.com/_RepoWithoutCommits.git");
-       _TotallyNewRepo.Uri = new Uri("http://www.github.com/_TotallyNewRepo.git");
+       _RepoWithCommits.Uri = ("http://www.github.com/_RepoWithCommits.git");
+       _RepoWithoutCommits.Uri = ("http://www.github.com/_RepoWithoutCommits.git");
+       _TotallyNewRepo.Uri = ("http://www.github.com/_TotallyNewRepo.git");
 
-        var _author = new GitSignature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20));
-        var _committer1 = new GitSignature("Clarpat", "dw2@bout.it", new DateTime(2022, 03, 10, 3, 10, 20));
-        var _committer2 = new GitSignature("Sigmo", "dw3@bout.it", new DateTime(2020, 05, 10, 12, 55, 20));
+        var _author = new GitSignature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20).ToUniversalTime());
+        var _committer1 = new GitSignature("Clarpat", "dw2@bout.it", new DateTime(2022, 03, 10, 3, 10, 20).ToUniversalTime());
+        var _committer2 = new GitSignature("Sigmo", "dw3@bout.it", new DateTime(2020, 05, 10, 12, 55, 20).ToUniversalTime());
 
         var _commit1 = new GitCommit(_RepoWithCommits, _author, "Init commit", sha: "1");
         var _commit2 = new GitCommit(_RepoWithCommits, _committer1, "First commit from committer1", sha: "2");
@@ -43,8 +43,8 @@ public class GitRepoRepositoryTest : IDisposable
         _RepoWithCommits.Commits.Add(_commit2);
         _RepoWithCommits.Commits.Add(_commit3);
 
-        context.Repos.Add(_RepoWithCommits);
-        context.Repos.Add(_RepoWithoutCommits);
+        context.repos.Add(_RepoWithCommits);
+        context.repos.Add(_RepoWithoutCommits);
 
         context.SaveChanges();
 
@@ -135,7 +135,7 @@ public class GitRepoRepositoryTest : IDisposable
         var result = _repository.ReadRepoByUri(_AllRepos[1].Uri!);
 
         // Assert
-        result.Should().Be(expected);
+        result.Should().BeEquivalentTo(expected);
 
      }
 
@@ -147,7 +147,7 @@ public class GitRepoRepositoryTest : IDisposable
         //arrange
         var expected = status;
         var repo = _AllRepos[repoIndex];
-        var _author = new GitSignature("bobo", "dut@to.it", new DateTime(2022, 06, 10, 12, 10, 20));
+        var _author = new GitSignature("bobo", "dut@to.it", new DateTime(2022, 06, 10, 12, 10, 20).ToUniversalTime());
         var newcommit = new GitCommit(repo, _author, "more stuff", sha: "4");
         //act
         repo.Commits.Add(newcommit);

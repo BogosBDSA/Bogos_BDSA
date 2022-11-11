@@ -17,7 +17,7 @@ public class GitCommit
     public GitCommit() { }
     public GitCommit(GitRepo repo, Commit commit)
     {
-        CommitterWhen = commit.Committer.When;
+        CommitterWhen = commit.Committer.When.UtcDateTime;
         Committer = new GitSignature(commit.Committer);
         Encoding = commit.Encoding;
         Message = commit.Message;
@@ -25,7 +25,7 @@ public class GitCommit
     }
     public GitCommit(GitRepo repo, GitSignature committer, String message = "", string sha = "", String encoding = "0")
     {
-        CommitterWhen = committer.When;
+        CommitterWhen = committer.When.UtcDateTime;
         Committer = committer;
         belongsTo = repo;
         Encoding = encoding;

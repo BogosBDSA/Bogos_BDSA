@@ -1,9 +1,9 @@
 namespace Bogos.entities;
 public class GitContext : DbContext
 {
-    public DbSet<GitRepo> Repos => Set<GitRepo>();
-    public DbSet<GitCommit> Commits => Set<GitCommit>();
-    public DbSet<GitSignature> Signatures => Set<GitSignature>();
+    public DbSet<GitRepo> repos => Set<GitRepo>();
+    public DbSet<GitCommit> commits => Set<GitCommit>();
+    public DbSet<GitSignature> signatures => Set<GitSignature>();
 
 
     public GitContext(DbContextOptions<GitContext> options) : base(options)

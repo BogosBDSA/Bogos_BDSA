@@ -9,10 +9,10 @@ namespace Bogos.tests
         {
 
             testRepo = new GitRepo();
-            var signature1 = new GitSignature("Nicolai", "bøvmail@123", new DateTime(1945, 05, 05));
-            var signature2 = new GitSignature("Nicolai", "bøvmail@123", new DateTime(2010, 12, 10));
-            var signature3 = new GitSignature("Nicolai", "bøvmail@123", new DateTime(2010, 12, 10));
-            var signature4 = new GitSignature("Nicolai", "bøvmail@123", new DateTime(2022, 01, 31));
+            var signature1 = new GitSignature("Nicolai", "bøvmail@123", new DateTime(1945, 05, 05,13,30,00).ToUniversalTime());
+            var signature2 = new GitSignature("Nicolai", "bøvmail@123", new DateTime(2010, 12, 10,13,30,0).ToUniversalTime());
+            var signature3 = new GitSignature("Nicolai", "bøvmail@123", new DateTime(2010, 12, 10,13,30,00).ToUniversalTime());
+            var signature4 = new GitSignature("Nicolai", "bøvmail@123", new DateTime(2022, 01, 31,13,30,000000000).ToUniversalTime());
             testRepo.Commits.Add(new GitCommit(testRepo, signature1, "inital commit"));
             testRepo.Commits.Add(new GitCommit(testRepo, signature2, "second commit"));
             testRepo.Commits.Add(new GitCommit(testRepo, signature3, "third commit"));
