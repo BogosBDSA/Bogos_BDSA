@@ -10,7 +10,6 @@ public class Program
         db.Database.EnsureCreated(); */
 
         var printable = new GitRepo("https://github.com/nselpriv/Bogos_BDSA.git");
-        Console.WriteLine(printable);
 
         // API
 
