@@ -52,35 +52,32 @@ public class Program
         app.UseSwagger();
         app.UseSwaggerUI();
 
-	    app.MapGet("/", () => "Hello World!");
+	    app.MapGet("/", () => "To run Author and Frequency mode: Type /frequency or /author your localHost:Port, and add the users name and which repository you want to display. \n For example : http://localhost:5243/frequency/<User>/<Repository>");
 
-    //Get function to Get data from database
-        //app.MapGet("/data", (GitContext data) => data.Repos.ToListAsync());
 
-        app.MapGet("/gitinsight/frequency/{repo}", (string repo) => {
-                var path = $"https://github.com/{repo}.git";
+        app.MapGet("/frequency/{author}/{repo}", (string author, string repo) => {
+                var path = $"https://github.com/{author}/{repo}.git";
                 
-
-                var result = repository.ReadRepoByUri(hardcodepath);
+                var result = repository.ReadRepoByUri(path);
                
-                var converthis = GitInsight.FrequencyMode(result);
-                var returnthis = Newtonsoft.Json.JsonConvert.SerializeObject(converthis);
+                var convertThis = GitInsight.FrequencyMode(result);
+                var returnJson = Newtonsoft.Json.JsonConvert.SerializeObject(convertThis);
                 
                 
-                return returnthis;
+                return returnJson;
         });
 
 
-        app.MapGet("/gitinsight/author/{repo}", (string repo) => {
-                var path = $"https://github.com/{repo}.git";
-
-                var result = repository.ReadRepoByUri(hardcodepath);
+        app.MapGet("/author/{author}/{repo}", (string author, string repo) => {
+                var path = $"https://github.com/{author}/{repo}.git";
+                
+                var result = repository.ReadRepoByUri(path);
                
-                var converthis = GitInsight.AuthorMode(result);
-                var returnthis = Newtonsoft.Json.JsonConvert.SerializeObject(converthis);
+                var convertThis = GitInsight.AuthorMode(result);
+                var returnJson = Newtonsoft.Json.JsonConvert.SerializeObject(convertThis);
                 
                 
-                return returnthis;
+                return returnJson;
         });
         // API
 
