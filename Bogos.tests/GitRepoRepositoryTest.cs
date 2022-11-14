@@ -70,7 +70,7 @@ public class GitRepoRepositoryTest : IDisposable
         var expected = status;
 
         // Act 
-        var result = _repository.CreateRepo(testRepo);
+        var result = _repository.CreateRepo(testRepo).Item1;
 
         // Assert
         result.Should().Be(expected);
@@ -84,7 +84,7 @@ public class GitRepoRepositoryTest : IDisposable
         repoWithSameUri.Uri = _AllRepos[0].Uri;
 
         // Act
-        var result = _repository.CreateRepo(repoWithSameUri);
+        var result = _repository.CreateRepo(repoWithSameUri).Item1;
 
         // Assert
         result.Should().Be(Status.CONFLICT);
