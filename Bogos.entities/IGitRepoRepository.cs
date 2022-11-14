@@ -7,5 +7,5 @@ public interface IGitRepoRepository
     public IEnumerable<GitRepo> ReadAllRepos();
     public Status DeleteRepo(GitRepo repo);
     public Status UpdateRepo(GitRepo repo);
-    public Status CreateRepo(GitRepo repo);
+    public (Status,GitRepo) CreateRepo(GitRepo repo);
 }

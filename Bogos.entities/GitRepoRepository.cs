@@ -10,17 +10,17 @@ public class GitRepoRepository : IGitRepoRepository
     }
 
 
-    public Status CreateRepo(GitRepo repo)
+    public (Status,GitRepo?) CreateRepo(GitRepo repo)
     {
         // Make sure repo doesn't alredy exist in repository
         GitRepo? entity = _Context.repos
                             .FirstOrDefault(r => r.Uri.Equals(repo.Uri));
-        if (entity != null) return Status.CONFLICT;
+        if (entity != null) return (Status.CONFLICT,null);
 
         // Add repo to repository
         _Context.repos.Add(repo);
         _Context.SaveChanges();
-        return Status.CREATED;
+        return (Status.CREATED,repo);
     }
 
     public Status DeleteRepo(GitRepo repo)

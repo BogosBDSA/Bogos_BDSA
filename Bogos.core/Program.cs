@@ -13,37 +13,8 @@ public class Program
 
         build.Services.AddDbContext<GitContext>(opt => opt = builder);
 
-        var hardcodepath = "https://github.com/nselpriv/Bogos_BDSA.git"; 
-        GitRepoRepository repository = new GitRepoRepository(db);
-        var printable = repository.ReadRepoByUri(hardcodepath);
-        
-        GitRepo printable2 = null;
-        if(printable == null)
-        {
-            printable2 = new GitRepo(hardcodepath);
-            repository.CreateRepo(printable2);
-            
-        } else {
-             printable2 = new GitRepo(hardcodepath);
-                if(!printable.Equals(printable2))
-                {
-                    repository.UpdateRepo(printable2);
-                    Console.WriteLine("it updated");
-                    return;
-                }
-                Console.WriteLine("is the same");
-
-        }
-
-        /*
-        if(repository.ReadRepoByUri(hardcodepath))
-
-        var freq = GitInsight.FrequencyMode(printable);
-        var auth = GitInsight.AuthorMode(printable); 
-        */
-
-        //opt.UseNpgsql(@"Server=127.0.0.1;Port=5430;Database=bogosdb;User Id=postgres;Password=mypassword;"));
-
+        GitRepoRepository _repository = new GitRepoRepository(db);
+       
         build.Services.AddEndpointsApiExplorer();
         build.Services.AddSwaggerGen();
 
@@ -57,12 +28,10 @@ public class Program
 
         app.MapGet("/frequency/{author}/{repo}", (string author, string repo) => {
                 var path = $"https://github.com/{author}/{repo}.git";
+
                 
-                var result = repository.ReadRepoByUri(path);
-               
-                var convertThis = GitInsight.FrequencyMode(result);
+                var convertThis = GitInsight.FrequencyMode(HandleRepo(path, _repository));
                 var returnJson = Newtonsoft.Json.JsonConvert.SerializeObject(convertThis);
-                
                 
                 return returnJson;
         });
@@ -71,31 +40,25 @@ public class Program
         app.MapGet("/author/{author}/{repo}", (string author, string repo) => {
                 var path = $"https://github.com/{author}/{repo}.git";
                 
-                var result = repository.ReadRepoByUri(path);
                
-                var convertThis = GitInsight.AuthorMode(result);
+                var convertThis = GitInsight.AuthorMode(HandleRepo(path, _repository));
                 var returnJson = Newtonsoft.Json.JsonConvert.SerializeObject(convertThis);
                 
                 
                 return returnJson;
         });
-        // API
-
-        // -> URI("")
-        // repo = GITREPO(URI) 
-
-
-        // AUTHOR MODE <- repo
-
-        // FREQUENCY MODE <- repo
 
         app.Run();
 
+    }
+    private static GitRepo HandleRepo(string path, GitRepoRepository _repository){
 
-
-
-
-
-
+        var result = _repository.ReadRepoByUri(path);
+                if(result == null){
+                result = _repository.CreateRepo(new GitRepo(path)).Item2;
+                } else {
+                    _repository.UpdateRepo(result);
+        }
+        return result;
     }
 }
