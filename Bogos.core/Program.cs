@@ -52,12 +52,14 @@ public class Program
 
     }
     private static GitRepo HandleRepo(string path, GitRepoRepository _repository){
-
+        var temp = new GitRepo(path);
         var result = _repository.ReadRepoByUri(path);
                 if(result == null){
                 result = _repository.CreateRepo(new GitRepo(path)).Item2;
-                } else {
-                    _repository.UpdateRepo(result);
+                } 
+                if (!result.Equals(temp)) {
+                    _repository.UpdateRepo(temp);
+                    return temp;
         }
         return result;
     }

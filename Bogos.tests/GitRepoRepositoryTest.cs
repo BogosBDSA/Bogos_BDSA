@@ -1,7 +1,4 @@
-using Bogos.entities;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using NSubstitute;
+
 
 namespace Bogos.tests;
 
@@ -11,7 +8,7 @@ public class GitRepoRepositoryTest : IDisposable
     private readonly GitRepoRepository _repository;
     private readonly List<GitRepo> _AllRepos;
     private readonly List<GitRepo> _AllReposwithempty;
-
+      
 
     public GitRepoRepositoryTest()
     {
@@ -195,6 +192,35 @@ public class GitRepoRepositoryTest : IDisposable
         var result = _repository.UpdateRepo(repo);
 
         //assert
+        result.Should().Be(expected);
+    }
+
+    [Fact]
+    public void Api_Call_Should_Return_Converted_CSharp_Object_To_Json_AuthorMode()
+    {
+        // Arrange
+        var path = _repository.ReadRepoByUri(_AllReposwithempty[0].Uri).Uri;
+
+        var expected = "{\"AuthorToDateAndFrequency\":{\"Osnic dw1@bout.it\":{\"DateToFrequency\":{\"10-05-2022\":1}},\"Clarpat dw2@bout.it\":{\"DateToFrequency\":{\"10-03-2022\":1}},\"Sigmo dw3@bout.it\":{\"DateToFrequency\":{\"10-05-2020\":1}}}}";
+        
+        var repo = GitInsight.AuthorMode(_AllReposwithempty[0]);
+        var result = Newtonsoft.Json.JsonConvert.SerializeObject(repo);
+
+        // Then
+        result.Should().Be(expected);
+    }
+    [Fact]
+    public void Api_Call_Should_Return_Converted_CSharp_Object_To_Json_FrequencyMode()
+    {
+        // Arrange
+        var path = _repository.ReadRepoByUri(_AllReposwithempty[0].Uri).Uri;
+
+        var expected = "{\"DateToFrequency\":{\"10-05-2022\":1,\"10-03-2022\":1,\"10-05-2020\":1}}";
+        
+        var repo = GitInsight.FrequencyMode(_AllReposwithempty[0]);
+        var result = Newtonsoft.Json.JsonConvert.SerializeObject(repo);
+
+        // Then
         result.Should().Be(expected);
     }
 
