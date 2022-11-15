@@ -10,22 +10,29 @@ public class GitRepoRepository : IGitRepoRepository
     }
 
 
-    public (Status,GitRepo?) CreateRepo(GitRepo repo)
+    public (Status, GitRepo?) CreateRepo(GitRepo repo)
     {
         // Make sure repo doesn't alredy exist in repository
         GitRepo? entity = _Context.repos
                             .FirstOrDefault(r => r.Uri.Equals(repo.Uri));
-        if (entity != null) return (Status.CONFLICT,null);
+        if (entity != null) return (Status.CONFLICT, null);
 
         // Add repo to repository
         _Context.repos.Add(repo);
         _Context.SaveChanges();
-        return (Status.CREATED,repo);
+        return (Status.CREATED, repo);
     }
 
     public Status DeleteRepo(GitRepo repo)
     {
-        throw new NotImplementedException();
+        var entity = _Context.repos.Find(repo.Id);
+        if (entity == null) {
+            return Status.NOTFOUND;
+        }
+        
+        _Context.repos.Remove(entity);
+        _Context.SaveChanges(); 
+        return Status.DELETED;
     }
 
     public IEnumerable<GitRepo> ReadAllRepos()
@@ -33,7 +40,7 @@ public class GitRepoRepository : IGitRepoRepository
         var _listOfReposInContext = new List<GitRepo>();
         foreach (var repo in _Context.repos)
         {
-        _listOfReposInContext.Add(repo);
+            _listOfReposInContext.Add(repo);
         }
         return _listOfReposInContext;
     }
@@ -46,7 +53,7 @@ public class GitRepoRepository : IGitRepoRepository
 
     public GitRepo? ReadRepoByUri(string uri)
     {
-       var tempUri = new Uri(uri);
+        var tempUri = new Uri(uri);
         return ReadRepoByUri(tempUri);
     }
 
