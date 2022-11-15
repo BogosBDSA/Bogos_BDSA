@@ -90,8 +90,49 @@ public class GitRepoRepositoryTest : IDisposable
         result.Should().Be(Status.CONFLICT);
     }
 
-    //
-    public void DeleteRepo_usingGitRepository_shouldreturnStatusDELETED() { }
+    [Fact]
+    public void DeleteRepo_using_existing_repo_should_return_DELETED() { 
+        // Arrange
+        var repo = new GitRepo();
+        _repository.CreateRepo(repo);
+
+        // Act
+        var result = _repository.DeleteRepo(repo);
+        
+        // Assert
+        result.Should().Be(Status.DELETED);
+    }
+
+    [Fact]
+    public void DeleteRepo_using_nonexisting_repo_should_return_NOTFOUND() { 
+        // Arrange
+        var repo = new GitRepo();
+
+        // Act
+        var result = _repository.DeleteRepo(repo);
+        
+        // Assert
+        result.Should().Be(Status.NOTFOUND);
+    }
+
+    [Fact]
+    public void ReadRepoByID_should_return_null_for_deleted_repo()
+    {
+        // Arrange
+        var repo = new GitRepo();
+        _repository.CreateRepo(repo);
+        
+        // Ensure it is created
+        var createdRepo = _repository.ReadRepoByID(repo.Id);
+        createdRepo.Should().NotBeNull();
+
+        // Act 
+        _repository.DeleteRepo(repo);
+        var deletedRepo = _repository.ReadRepoByID(repo.Id);
+
+        // Assert
+        deletedRepo.Should().BeNull(); 
+    }
 
     [Fact]
     public void ReadAllRepos_ShouldReturnAlistOf3Repositories_forDBwith3Repositories()
