@@ -9,7 +9,16 @@ public class GitRepoRepository : IGitRepoRepository
 
     }
 
-
+    public (Status, GitRepo?) HandleUri(String uri) 
+    {
+        var existingRepo = ReadRepoByUri(uri);
+        if (existingRepo == null) {
+            return CreateRepo(new GitRepo(uri));
+        }
+        var updatedRepo = new GitRepo(uri);
+        return UpdateRepo(updatedRepo);
+    }
+    
     public (Status, GitRepo?) CreateRepo(GitRepo repo)
     {
         // Make sure repo doesn't alredy exist in repository
@@ -22,6 +31,25 @@ public class GitRepoRepository : IGitRepoRepository
         _Context.SaveChanges();
         return (Status.CREATED, repo);
     }
+
+    public (Status, GitRepo?) UpdateRepo(GitRepo repo)
+    {   
+        var existingRepo = _Context.repos.FirstOrDefault(r => r.Uri == repo.Uri);
+        if (existingRepo == null) {
+            return (Status.NOTFOUND, null); 
+        }
+
+        // Update
+        var result = _Context.Update(repo);
+        _Context.SaveChanges();
+
+        if (result.Entity.Equals(existingRepo)) { 
+            return (Status.UNCHANGED, result.Entity);
+        }
+
+        return (Status.UPDATED, result.Entity);
+    }
+
 
     public Status DeleteRepo(GitRepo repo)
     {
@@ -57,17 +85,8 @@ public class GitRepoRepository : IGitRepoRepository
         return ReadRepoByUri(tempUri);
     }
 
-    public GitRepo? ReadRepoByUri(Uri uri) {
-    return _Context.repos.FirstOrDefault(k => k.Uri.Equals(uri.AbsoluteUri));
-    } 
-    
-    // Up for grabs
-    public Status UpdateRepo(GitRepo repo)
-    {   
-        var state = _Context.Update(repo);
-        if(state.State==EntityState.Modified)
-        {
-        return Status.UPDATED;
-        } else return Status.NOTFOUND;
+    public GitRepo? ReadRepoByUri(Uri uri) 
+    {
+        return _Context.repos.FirstOrDefault(k => k.Uri.Equals(uri.AbsoluteUri));
     }
 }
