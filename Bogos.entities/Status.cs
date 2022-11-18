@@ -4,6 +4,7 @@ public enum Status
 {
     CREATED,
     UPDATED,
+    UNCHANGED,
     DELETED,
     NOTFOUND,
     BADREQUEST,

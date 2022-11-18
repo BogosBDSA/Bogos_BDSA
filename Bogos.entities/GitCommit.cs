@@ -31,6 +31,16 @@ public class GitCommit
         Encoding = encoding;
         Message = message;
         Sha = sha;
+    }
 
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+        var other = (GitCommit)obj;
+
+        return other.Sha == this.Sha;
     }
 }

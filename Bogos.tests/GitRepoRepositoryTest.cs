@@ -7,8 +7,7 @@ public class GitRepoRepositoryTest : IDisposable
     private readonly GitContext _context;
     private readonly GitRepoRepository _repository;
     private readonly List<GitRepo> _AllRepos;
-    private readonly List<GitRepo> _AllReposwithempty;
-      
+    private readonly List<GitRepo> _AllReposWithEmpty;
 
     public GitRepoRepositoryTest()
     {
@@ -20,13 +19,9 @@ public class GitRepoRepositoryTest : IDisposable
         var context = new GitContext(builder.Options);
         context.Database.EnsureCreated();
 
-        var _RepoWithCommits = new GitRepo();
-        var _RepoWithoutCommits = new GitRepo();
-        var _TotallyNewRepo = new GitRepo();
-       
-       _RepoWithCommits.Uri = ("http://www.github.com/_RepoWithCommits.git");
-       _RepoWithoutCommits.Uri = ("http://www.github.com/_RepoWithoutCommits.git");
-       _TotallyNewRepo.Uri = ("http://www.github.com/_TotallyNewRepo.git");
+        var _RepoWithCommits = new GitRepo("http://www.github.com/_RepoWithCommits.git");
+        var _RepoWithoutCommits = new GitRepo("http://www.github.com/_RepoWithoutCommits.git");
+        var _TotallyNewRepo = new GitRepo("http://www.github.com/_TotallyNewRepo.git");
 
         var _author = new GitSignature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20).ToUniversalTime());
         var _committer1 = new GitSignature("Clarpat", "dw2@bout.it", new DateTime(2022, 03, 10, 3, 10, 20).ToUniversalTime());
@@ -51,23 +46,67 @@ public class GitRepoRepositoryTest : IDisposable
 
         _context = context;
         _repository = new GitRepoRepository(_context);
-        _AllReposwithempty = new() { _RepoWithCommits, _RepoWithoutCommits, _TotallyNewRepo };
+        _AllReposWithEmpty = new() { _RepoWithCommits, _RepoWithoutCommits, _TotallyNewRepo };
         _AllRepos = new() { _RepoWithCommits, _RepoWithoutCommits };
     }
 
+    [Fact]
+    public void HandleUri_using_existing_repo_with_fake_uri_should_return_UPDATED() 
+    {
+        // Arrange
+        var uri = _AllRepos.First().Uri;
+        uri.Should().NotBeNull();
 
+        // Act
+        var (result, handledRepo) = _repository.HandleUri(uri);
+
+        // Assert
+        handledRepo.Should().NotBeNull();
+        result.Should().Be(Status.UPDATED);
+    }
+
+    [Fact]
+    public void HandleUri_using_existing_repo_with_real_uri_should_return_UNCHANGED() 
+    {
+        // Arrange
+        var uri = "https://github.com/oskaitu/distributed-mutex.git";
+        var repo = new GitRepo(uri);
+        _repository.CreateRepo(repo);
+        _context.SaveChanges();
+
+        // Act
+        var (result, handledRepo) = _repository.HandleUri(uri);
+
+        // Assert
+        handledRepo.Should().NotBeNull();
+        result.Should().Be(Status.UNCHANGED);
+    }
+
+    [Fact]
+    public void HandleUri_using_nonexisting_uri_should_return_CREATED() 
+    {
+        // Arrange
+        var newUri = "http://www.github.com/newUri.git";
+
+        // Act
+        var (result, handledRepo) = _repository.HandleUri(newUri);
+
+        // Assert
+        handledRepo.Should().NotBeNull();
+        result.Should().Be(Status.CREATED);
+    }
 
     [Theory]
     [InlineData(0, Status.CONFLICT)]
     [InlineData(2, Status.CREATED)]
-    public void CreateRepo_using_GitRepo_should_return__expected_status(int repoIndex, Status status)
+    public void CreateRepo_using_GitRepo_should_return_expected_status(int repoIndex, Status status)
     {
         // Arrange
-        var testRepo = _AllReposwithempty[repoIndex];
+        var testRepo = _AllReposWithEmpty[repoIndex];
         var expected = status;
 
         // Act 
-        var result = _repository.CreateRepo(testRepo).Item1;
+        var (result, _) = _repository.CreateRepo(testRepo);
 
         // Assert
         result.Should().Be(expected);
@@ -81,14 +120,16 @@ public class GitRepoRepositoryTest : IDisposable
         repoWithSameUri.Uri = _AllRepos[0].Uri;
 
         // Act
-        var result = _repository.CreateRepo(repoWithSameUri).Item1;
+        var (result, createdRepo) = _repository.CreateRepo(repoWithSameUri);
 
         // Assert
+        createdRepo.Should().BeNull();
         result.Should().Be(Status.CONFLICT);
     }
 
     [Fact]
-    public void DeleteRepo_using_existing_repo_should_return_DELETED() { 
+    public void DeleteRepo_using_existing_repo_should_return_DELETED() 
+    { 
         // Arrange
         var repo = new GitRepo();
         _repository.CreateRepo(repo);
@@ -101,7 +142,8 @@ public class GitRepoRepositoryTest : IDisposable
     }
 
     [Fact]
-    public void DeleteRepo_using_nonexisting_repo_should_return_NOTFOUND() { 
+    public void DeleteRepo_using_nonexisting_repo_should_return_NOTFOUND() 
+    { 
         // Arrange
         var repo = new GitRepo();
 
@@ -158,14 +200,12 @@ public class GitRepoRepositoryTest : IDisposable
 
         // Assert
         result.Should().Be(expected);
-
-
     }
 
     [Fact]
-    public void ReadRepoByUri_Should_Return_RepoWithoutCommits_given_RepoWithoutCommitsUri() {
+    public void ReadRepoByUri_Should_Return_RepoWithoutCommits_given_RepoWithoutCommitsUri() 
+    {
         // Arrange 
-
         var repo = _AllRepos[1];
         var expected = repo;
 
@@ -174,24 +214,25 @@ public class GitRepoRepositoryTest : IDisposable
 
         // Assert
         result.Should().BeEquivalentTo(expected);
-
      }
-
 
     [Theory]
     [InlineData(0, Status.UPDATED)]
     public void UpdateRepo_ShouldReturnStatusUPDATED_ForRepoWithID1(int repoIndex, Status status)
     {
-        //arrange
+        // Arrange 
         var expected = status;
-        var repo = _AllRepos[repoIndex];
+        var existingRepo = _AllRepos[repoIndex];
+        var updatedRepo = new GitRepo();
+        updatedRepo.Uri = existingRepo.Uri;
         var _author = new GitSignature("bobo", "dut@to.it", new DateTime(2022, 06, 10, 12, 10, 20).ToUniversalTime());
-        var newcommit = new GitCommit(repo, _author, "more stuff", sha: "4");
-        //act
-        repo.Commits.Add(newcommit);
-        var result = _repository.UpdateRepo(repo);
+        var newcommit = new GitCommit(updatedRepo, _author, "more stuff", sha: "4");
+        updatedRepo.Commits.Add(newcommit);
 
-        //assert
+        // Act
+        var (result, _) = _repository.UpdateRepo(updatedRepo);
+
+        // Assert
         result.Should().Be(expected);
     }
 
@@ -199,11 +240,11 @@ public class GitRepoRepositoryTest : IDisposable
     public void Api_Call_Should_Return_Converted_CSharp_Object_To_Json_AuthorMode()
     {
         // Arrange
-        var path = _repository.ReadRepoByUri(_AllReposwithempty[0].Uri).Uri;
+        var path = _repository.ReadRepoByUri(_AllReposWithEmpty[0].Uri).Uri;
 
         var expected = "{\"AuthorToDateAndFrequency\":{\"Osnic dw1@bout.it\":{\"DateToFrequency\":{\"10-05-2022\":1}},\"Clarpat dw2@bout.it\":{\"DateToFrequency\":{\"10-03-2022\":1}},\"Sigmo dw3@bout.it\":{\"DateToFrequency\":{\"10-05-2020\":1}}}}";
         
-        var repo = GitInsight.AuthorMode(_AllReposwithempty[0]);
+        var repo = GitInsight.AuthorMode(_AllReposWithEmpty[0]);
         var result = Newtonsoft.Json.JsonConvert.SerializeObject(repo);
 
         // Then
@@ -213,11 +254,11 @@ public class GitRepoRepositoryTest : IDisposable
     public void Api_Call_Should_Return_Converted_CSharp_Object_To_Json_FrequencyMode()
     {
         // Arrange
-        var path = _repository.ReadRepoByUri(_AllReposwithempty[0].Uri).Uri;
+        var path = _repository.ReadRepoByUri(_AllReposWithEmpty[0].Uri).Uri;
 
         var expected = "{\"DateToFrequency\":{\"10-05-2022\":1,\"10-03-2022\":1,\"10-05-2020\":1}}";
         
-        var repo = GitInsight.FrequencyMode(_AllReposwithempty[0]);
+        var repo = GitInsight.FrequencyMode(_AllReposWithEmpty[0]);
         var result = Newtonsoft.Json.JsonConvert.SerializeObject(repo);
 
         // Then

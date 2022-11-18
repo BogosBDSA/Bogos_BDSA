@@ -2,33 +2,46 @@ namespace Bogos.entities;
 public class GitRepo
 {
     public int Id { get; set; }
-
     public string? Uri { get; set; }
     public virtual ICollection<GitCommit> Commits { get; set; } = new List<GitCommit>();
-    public GitRepo()
-    {
-    }
+    public GitRepo() { }
     public GitRepo(string url, string branchName = "")
     {
-        Repository repo = null;
-        var tempPath = "./TempRepoFolder";
+        Repository tempRepo = null;
+        var tempPath = Environment.CurrentDirectory + "/TempRepoFolder";
+        if (!Directory.Exists(tempPath)) {
+            Directory.CreateDirectory(tempPath);
+        }
+
         try
         {
             var clonedPath = Repository.Clone(url, tempPath);
-            repo = new Repository(clonedPath);
-            if (branchName != "" && repo.Branches[branchName] != null) { Commands.Checkout(repo, branchName); }
-            Commits = repo.Commits.Select(commit => new GitCommit(this, commit)).ToList();
-            Uri = url;
+            tempRepo = new Repository(clonedPath);
+            
+            if (branchName != "" && tempRepo.Branches[branchName] != null) 
+            { 
+                Commands.Checkout(tempRepo, branchName); 
+            }
+            
+            Commits = tempRepo.Commits.Select(commit => new GitCommit(this, commit)).ToList();
+        }
+        catch 
+        {
+            Console.WriteLine("Remote repo not found");
         }
         finally
         {  
-            if(repo != null) {repo.Dispose();}
+            Uri = url;
+            if (tempRepo != null) 
+            {
+                tempRepo.Dispose();
+            }
             DeleteReadOnlyDirectory(tempPath);   
         }
     }
 
 
-//This function is borrowed from https://stackoverflow.com/questions/2316308/remove-readonly-attribute-from-directory
+    // This function is borrowed from https://stackoverflow.com/questions/2316308/remove-readonly-attribute-from-directory
     private static void DeleteReadOnlyDirectory(string directory)
     {
         foreach (var subdirectory in Directory.EnumerateDirectories(directory))
@@ -47,23 +60,20 @@ public class GitRepo
 
     public override bool Equals(object obj)
     {
-        //
-        // See the full list of guidelines at
-        //   http://go.microsoft.com/fwlink/?LinkID=85237
-        // and also the guidance for operator== at
-        //   http://go.microsoft.com/fwlink/?LinkId=85238
-        //
-        
         if (obj == null || GetType() != obj.GetType())
         {
             return false;
         }
         var other = (GitRepo)obj;
-        // TODO: write your implementation of Equals() here
-        if(other.Commits.First().Sha == this.Commits.First().Sha)
-        {
-            return true; 
-        } 
-        return false;
+
+        if (other.Uri != this.Uri) {
+            return false;
+        }
+
+        if (!other.Commits.SequenceEqual(this.Commits)) {
+            return false;
+        }
+
+        return true;
     }
 }

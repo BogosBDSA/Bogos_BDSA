@@ -4,53 +4,53 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var builder = new DbContextOptionsBuilder<GitContext>().UseNpgsql(@"Server=127.0.0.1;Port=5430;Database=bogosdb;User Id=postgres;Password=mypassword;");
-        using var db = new GitContext(builder.Options);
+        // Setup database
+        var dbBuilder = new DbContextOptionsBuilder<GitContext>().UseNpgsql(@"Server=127.0.0.1;Port=5430;Database=bogosdb;User Id=postgres;Password=mypassword;");
+        using var db = new GitContext(dbBuilder.Options);
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated(); 
 
-        var build = WebApplication.CreateBuilder(args);
-
-        build.Services.AddDbContext<GitContext>(opt => opt = builder);
-
+        // Setup repository
         GitRepoRepository _repository = new GitRepoRepository(db);
-       
-        build.Services.AddEndpointsApiExplorer();
-        build.Services.AddSwaggerGen();
 
-	    var app = build.Build();
+        // Setup web app
+        var webAppBuilder = WebApplication.CreateBuilder(args);
+        webAppBuilder.Services.AddDbContext<GitContext>(builder => builder = dbBuilder);
+        webAppBuilder.Services.AddEndpointsApiExplorer();
+        webAppBuilder.Services.AddSwaggerGen();
+	    var webApp = webAppBuilder.Build();
+        webApp.UseSwagger();
+        webApp.UseSwaggerUI();
 
-        app.UseSwagger();
-        app.UseSwaggerUI();
-
-	    app.MapGet("/", () => "To run Author and Frequency mode: Type /frequency or /author your localHost:Port, and add the users name and which repository you want to display. \n For example : http://localhost:5243/frequency/<User>/<Repository>");
-
-
-        app.MapGet("/frequency/{author}/{repo}", (string author, string repo) => {
-                var path = $"https://github.com/{author}/{repo}.git";
-
-                
-                var convertThis = GitInsight.FrequencyMode(HandleRepo(path, _repository));
-                var returnJson = Newtonsoft.Json.JsonConvert.SerializeObject(convertThis);
-                
-                return returnJson;
+        // Setup endpoints
+	    webApp.MapGet("/", () => 
+            @"To run Author and Frequency mode: 
+            Type /frequency or /author your localHost:Port, 
+            and add the users name and which repository you want to display. \n 
+            For example : http://localhost:5243/frequency/<User>/<Repository>"
+        );
+        webApp.MapGet("/frequency/{author}/{repo}", (string author, string repo) => {
+                var (_, gitRepo) = _repository.HandleUri($"https://github.com/{author}/{repo}.git");
+                if (gitRepo == null) 
+                {
+                    return "Error"; // TODO: Handle error
+                }
+                var frequencyModeDto = GitInsight.FrequencyMode(gitRepo);
+                return Newtonsoft.Json.JsonConvert.SerializeObject(frequencyModeDto);
+        });
+        webApp.MapGet("/author/{author}/{repo}", (string author, string repo) => {
+                var (_, gitRepo) = _repository.HandleUri($"https://github.com/{author}/{repo}.git");
+                if (gitRepo == null) 
+                {
+                    return "Error"; // TODO: Handle error
+                }
+                var authorModeDto = GitInsight.AuthorMode(gitRepo);
+                return Newtonsoft.Json.JsonConvert.SerializeObject(authorModeDto);
         });
 
-
-        app.MapGet("/author/{author}/{repo}", (string author, string repo) => {
-                var path = $"https://github.com/{author}/{repo}.git";
-                
-               
-                var convertThis = GitInsight.AuthorMode(HandleRepo(path, _repository));
-                var returnJson = Newtonsoft.Json.JsonConvert.SerializeObject(convertThis);
-                
-                
-                return returnJson;
-        });
-
-        app.Run();
-
+        webApp.Run();
     }
+
     private static GitRepo HandleRepo(string path, GitRepoRepository _repository){
         var temp = new GitRepo(path);
         var result = _repository.ReadRepoByUri(path);
