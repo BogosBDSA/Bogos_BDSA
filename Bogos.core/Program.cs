@@ -18,7 +18,16 @@ public class Program
         webAppBuilder.Services.AddDbContext<GitContext>(builder => builder = dbBuilder);
         webAppBuilder.Services.AddEndpointsApiExplorer();
         webAppBuilder.Services.AddSwaggerGen();
+        webAppBuilder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:5105");
+                });
+        });
 	    var webApp = webAppBuilder.Build();
+        webApp.UseCors();
         webApp.UseSwagger();
         webApp.UseSwaggerUI();
 
