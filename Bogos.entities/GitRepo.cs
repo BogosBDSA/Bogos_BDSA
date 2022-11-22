@@ -7,10 +7,10 @@ public class GitRepo
     public GitRepo(string url, string branchName = "")
     {
         Repository? tempRepo = null;
-        var tempPath = Environment.CurrentDirectory + "/TempRepoFolder";
-        if (!Directory.Exists(tempPath))
-            Directory.CreateDirectory(tempPath);
-
+        //var tempPath = Environment.CurrentDirectory + "/TempRepoFolder";
+        var tempPath = "././TempRepoFolder";
+       /* if (!Directory.Exists(tempPath))
+            Directory.CreateDirectory(tempPath);*/
         try
         {
             var clonedPath = Repository.Clone(url, tempPath);
