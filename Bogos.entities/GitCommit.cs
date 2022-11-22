@@ -26,7 +26,7 @@ public class GitCommit
         Repo = repo;
         Committer = committer;
         Sha = sha;
-        Date = date;
+        Date = date.ToUniversalTime();
         Message = message;
         Encoding = encoding;
     }
