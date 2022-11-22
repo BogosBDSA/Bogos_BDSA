@@ -4,14 +4,12 @@ public class GitRepo
     public int Id { get; set; }
     public string? Uri { get; set; }
     public virtual ICollection<GitCommit> Commits { get; set; } = new List<GitCommit>();
-    public GitRepo() { }
     public GitRepo(string url, string branchName = "")
     {
-        Repository tempRepo = null;
+        Repository? tempRepo = null;
         var tempPath = Environment.CurrentDirectory + "/TempRepoFolder";
-        if (!Directory.Exists(tempPath)) {
+        if (!Directory.Exists(tempPath))
             Directory.CreateDirectory(tempPath);
-        }
 
         try
         {
@@ -39,11 +37,14 @@ public class GitRepo
             DeleteReadOnlyDirectory(tempPath);   
         }
     }
-
+    private GitRepo() { } // Required for entity framework
 
     // This function is borrowed from https://stackoverflow.com/questions/2316308/remove-readonly-attribute-from-directory
     private static void DeleteReadOnlyDirectory(string directory)
     {
+        if (!Directory.Exists(directory)) 
+            return;
+            
         foreach (var subdirectory in Directory.EnumerateDirectories(directory))
         {
             DeleteReadOnlyDirectory(subdirectory);

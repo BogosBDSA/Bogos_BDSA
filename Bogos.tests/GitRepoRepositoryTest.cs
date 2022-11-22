@@ -19,35 +19,35 @@ public class GitRepoRepositoryTest : IDisposable
         var context = new GitContext(builder.Options);
         context.Database.EnsureCreated();
 
-        var _RepoWithCommits = new GitRepo("http://www.github.com/_RepoWithCommits.git");
-        var _RepoWithoutCommits = new GitRepo("http://www.github.com/_RepoWithoutCommits.git");
-        var _TotallyNewRepo = new GitRepo("http://www.github.com/_TotallyNewRepo.git");
+        var RepoWithCommits = new GitRepo("http://www.github.com/_RepoWithCommits.git");
+        var RepoWithoutCommits = new GitRepo("http://www.github.com/_RepoWithoutCommits.git");
+        var TotallyNewRepo = new GitRepo("http://www.github.com/_TotallyNewRepo.git");
 
-        var _author = new GitSignature("Osnic", "dw1@bout.it", new DateTime(2022, 05, 10, 12, 10, 20).ToUniversalTime());
-        var _committer1 = new GitSignature("Clarpat", "dw2@bout.it", new DateTime(2022, 03, 10, 3, 10, 20).ToUniversalTime());
-        var _committer2 = new GitSignature("Sigmo", "dw3@bout.it", new DateTime(2020, 05, 10, 12, 55, 20).ToUniversalTime());
+        var committer1 = new GitSignature("Osnic", "dw1@bout.it");
+        var committer2 = new GitSignature("Clarpat", "dw2@bout.it");
+        var committer3 = new GitSignature("Sigmo", "dw3@bout.it");
 
-        var _commit1 = new GitCommit(_RepoWithCommits, _author, "Init commit", sha: "1");
-        var _commit2 = new GitCommit(_RepoWithCommits, _committer1, "First commit from committer1", sha: "2");
-        var _commit3 = new GitCommit(_RepoWithCommits, _committer2, "First commit from committer2", sha: "3");
+        var commit1 = new GitCommit(RepoWithCommits, committer1, new DateTime(2022, 05, 10, 12, 10, 20), "Init commit", sha: "1");
+        var commit2 = new GitCommit(RepoWithCommits, committer2, new DateTime(2022, 03, 10, 3, 10, 20), "First commit from committer2", sha: "2");
+        var commit3 = new GitCommit(RepoWithCommits, committer3, new DateTime(2020, 05, 10, 12, 55, 20), "First commit from committer3", sha: "3");
 
-        _RepoWithCommits.Commits.Add(_commit1);
-        _RepoWithCommits.Commits.Add(_commit2);
-        _RepoWithCommits.Commits.Add(_commit3);
+        RepoWithCommits.Commits.Add(commit1);
+        RepoWithCommits.Commits.Add(commit2);
+        RepoWithCommits.Commits.Add(commit3);
 
-        context.repos.Add(_RepoWithCommits);
-        context.repos.Add(_RepoWithoutCommits);
+        context.repos.Add(RepoWithCommits);
+        context.repos.Add(RepoWithoutCommits);
 
         context.SaveChanges();
 
-        var _commit4 = new GitCommit(_TotallyNewRepo, _committer2, "First commit from committer2", sha: "4");
-        _TotallyNewRepo.Commits.Add(_commit4);
+        var commit4 = new GitCommit(TotallyNewRepo, committer2, new DateTime(2022, 03, 10, 3, 10, 20), "First commit from committer2", sha: "4");
+        TotallyNewRepo.Commits.Add(commit4);
 
 
         _context = context;
         _repository = new GitRepoRepository(_context);
-        _AllReposWithEmpty = new() { _RepoWithCommits, _RepoWithoutCommits, _TotallyNewRepo };
-        _AllRepos = new() { _RepoWithCommits, _RepoWithoutCommits };
+        _AllReposWithEmpty = new() { RepoWithCommits, RepoWithoutCommits, TotallyNewRepo };
+        _AllRepos = new() { RepoWithCommits, RepoWithoutCommits };
     }
 
     [Fact]
@@ -116,7 +116,7 @@ public class GitRepoRepositoryTest : IDisposable
     public void CreateRepo_using_repo_with_same_uri_as_existing_repo_should_return_CONFLICT()
     {
         // Arrange
-        var repoWithSameUri = new GitRepo();
+        var repoWithSameUri = new GitRepo("https://www.fakehub.com/fakeuser/fakeproject/fakerepo.git");
         repoWithSameUri.Uri = _AllRepos[0].Uri;
 
         // Act
@@ -131,7 +131,7 @@ public class GitRepoRepositoryTest : IDisposable
     public void DeleteRepo_using_existing_repo_should_return_DELETED() 
     { 
         // Arrange
-        var repo = new GitRepo();
+        var repo = new GitRepo("https://www.fakehub.com/fakeuser/fakeproject/fakerepo.git");
         _repository.CreateRepo(repo);
 
         // Act
@@ -145,7 +145,7 @@ public class GitRepoRepositoryTest : IDisposable
     public void DeleteRepo_using_nonexisting_repo_should_return_NOTFOUND() 
     { 
         // Arrange
-        var repo = new GitRepo();
+        var repo = new GitRepo("https://www.fakehub.com/fakeuser/fakeproject/fakerepo.git");
 
         // Act
         var result = _repository.DeleteRepo(repo);
@@ -158,7 +158,7 @@ public class GitRepoRepositoryTest : IDisposable
     public void ReadRepoByID_should_return_null_for_deleted_repo()
     {
         // Arrange
-        var repo = new GitRepo();
+        var repo = new GitRepo("https://www.fakehub.com/fakeuser/fakeproject/fakerepo.git");
         _repository.CreateRepo(repo);
         
         // Ensure it is created
@@ -223,10 +223,10 @@ public class GitRepoRepositoryTest : IDisposable
         // Arrange 
         var expected = status;
         var existingRepo = _AllRepos[repoIndex];
-        var updatedRepo = new GitRepo();
+        var updatedRepo = new GitRepo("https://www.fakehub.com/fakeuser/fakeproject/fakerepo.git");
         updatedRepo.Uri = existingRepo.Uri;
-        var _author = new GitSignature("bobo", "dut@to.it", new DateTime(2022, 06, 10, 12, 10, 20).ToUniversalTime());
-        var newcommit = new GitCommit(updatedRepo, _author, "more stuff", sha: "4");
+        var _author = new GitSignature("bobo", "dut@to.it");
+        var newcommit = new GitCommit(updatedRepo, _author, new DateTime(2022, 06, 10, 12, 10, 20), "more stuff", sha: "4");
         updatedRepo.Commits.Add(newcommit);
 
         // Act

@@ -1,5 +1,7 @@
 ﻿namespace Bogos.core;
 using Bogos.entities;
+using Newtonsoft.Json;
+
 public class Program
 {
     public static void Main(string[] args)
@@ -36,7 +38,7 @@ public class Program
                     return "Error"; // TODO: Handle error
                 }
                 var frequencyModeDto = GitInsight.FrequencyMode(gitRepo);
-                return Newtonsoft.Json.JsonConvert.SerializeObject(frequencyModeDto);
+                return JsonConvert.SerializeObject(frequencyModeDto, Formatting.Indented);
         });
         webApp.MapGet("/author/{author}/{repo}", (string author, string repo) => {
                 var (_, gitRepo) = _repository.HandleUri($"https://github.com/{author}/{repo}.git");
@@ -45,22 +47,9 @@ public class Program
                     return "Error"; // TODO: Handle error
                 }
                 var authorModeDto = GitInsight.AuthorMode(gitRepo);
-                return Newtonsoft.Json.JsonConvert.SerializeObject(authorModeDto);
+                return JsonConvert.SerializeObject(authorModeDto, Formatting.Indented);
         });
 
         webApp.Run();
-    }
-
-    private static GitRepo HandleRepo(string path, GitRepoRepository _repository){
-        var temp = new GitRepo(path);
-        var result = _repository.ReadRepoByUri(path);
-                if(result == null){
-                result = _repository.CreateRepo(new GitRepo(path)).Item2;
-                } 
-                if (!result.Equals(temp)) {
-                    _repository.UpdateRepo(temp);
-                    return temp;
-        }
-        return result;
     }
 }
