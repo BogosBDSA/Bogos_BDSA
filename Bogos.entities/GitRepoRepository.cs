@@ -6,7 +6,6 @@ public class GitRepoRepository : IGitRepoRepository
     public GitRepoRepository(GitContext context)
     {
         _Context = context;
-
     }
 
     public (Status, GitRepo?) HandleUri(String uri) 
@@ -50,7 +49,6 @@ public class GitRepoRepository : IGitRepoRepository
         return (Status.UPDATED, result.Entity);
     }
 
-
     public Status DeleteRepo(GitRepo repo)
     {
         var entity = _Context.repos.Find(repo.Id);
@@ -77,7 +75,6 @@ public class GitRepoRepository : IGitRepoRepository
     {
         return _Context.repos.FirstOrDefault(k => k.Id == id);
     }
-
 
     public GitRepo? ReadRepoByUri(string uri)
     {

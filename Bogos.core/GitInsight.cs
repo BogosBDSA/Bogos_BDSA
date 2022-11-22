@@ -10,7 +10,7 @@ namespace Bogos.core
 
             foreach (var commit in Repo.Commits)
             {
-                dates.Add(commit.CommitterWhen.ToString("dd-MM-yyyy"));
+                dates.Add(commit.Date.ToString("dd-MM-yyyy"));
             }
 
             foreach (string date in dates)
@@ -36,11 +36,11 @@ namespace Bogos.core
                 var freqData = new GitFrequencyModeDTO();
                 var Commits = Repo.Commits
                                     .Where(c => c.Committer.Name == UniqueCommitter.Name)
-                                    .GroupBy(k => new DateTime(
-                                        k.Committer.When.Year,
-                                        k.Committer.When.Month,
-                                        k.Committer.When.Day
-                                        ))
+                                    .GroupBy(c => new DateTime(
+                                        c.Date.Year,
+                                        c.Date.Month,
+                                        c.Date.Day
+                                    ))
                                     .Select(g => (g.Key.ToString("dd-MM-yyyy"), g.Count()));
 
                 foreach (var commit in Commits)
