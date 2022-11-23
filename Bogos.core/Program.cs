@@ -1,5 +1,6 @@
 ﻿namespace Bogos.core;
 using Bogos.entities;
+using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 
 public class Program
@@ -17,6 +18,8 @@ public class Program
 
         // Setup web app
         var webAppBuilder = WebApplication.CreateBuilder(args);
+        webAppBuilder.Services.AddAuthentication().AddJwtBearer();
+        webAppBuilder.Services.AddAuthorization();
         webAppBuilder.Services.AddDbContext<GitContext>(builder => builder = dbBuilder);
         webAppBuilder.Services.AddEndpointsApiExplorer();
         webAppBuilder.Services.AddSwaggerGen();
@@ -28,8 +31,11 @@ public class Program
                     policy.WithOrigins("http://localhost:5105");
                 });
         });
+
 	    var webApp = webAppBuilder.Build();
         webApp.UseCors();
+        webApp.UseAuthentication();
+        webApp.UseAuthorization();
         webApp.UseSwagger();
         webApp.UseSwaggerUI();
 
@@ -40,7 +46,7 @@ public class Program
             and add the users name and which repository you want to display. \n 
             For example : http://localhost:5243/frequency/<User>/<Repository>"
         );
-        webApp.MapGet("/frequency/{author}/{repo}", (string author, string repo) => {
+        webApp.MapGet("/frequency/{author}/{repo}", [Authorize] (string author, string repo) => {
                 var (_, gitRepo) = _repository.HandleUri($"https://github.com/{author}/{repo}.git");
                 if (gitRepo == null) 
                 {
@@ -49,7 +55,7 @@ public class Program
                 var frequencyModeDto = GitInsight.FrequencyMode(gitRepo);
                 return JsonConvert.SerializeObject(frequencyModeDto, Formatting.Indented);
         });
-        webApp.MapGet("/author/{author}/{repo}", (string author, string repo) => {
+        webApp.MapGet("/author/{author}/{repo}", [Authorize] (string author, string repo) => {
                 var (_, gitRepo) = _repository.HandleUri($"https://github.com/{author}/{repo}.git");
                 if (gitRepo == null) 
                 {
@@ -58,6 +64,7 @@ public class Program
                 var authorModeDto = GitInsight.AuthorMode(gitRepo);
                 return JsonConvert.SerializeObject(authorModeDto, Formatting.Indented);
         });
+        
 
         webApp.Run();
     }
