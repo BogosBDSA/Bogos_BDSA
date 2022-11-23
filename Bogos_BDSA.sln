@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bogos.entities", "Bogos.ent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bogos.core", "Bogos.core\Bogos.core.csproj", "{015F3731-4E22-4FA4-9097-459F80B745AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bogos.integration.tests", "Bogos.integration.tests\Bogos.integration.tests.csproj", "{546FA8E0-E60F-462B-B3F0-168BB2D46308}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{015F3731-4E22-4FA4-9097-459F80B745AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{015F3731-4E22-4FA4-9097-459F80B745AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{015F3731-4E22-4FA4-9097-459F80B745AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{546FA8E0-E60F-462B-B3F0-168BB2D46308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{546FA8E0-E60F-462B-B3F0-168BB2D46308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{546FA8E0-E60F-462B-B3F0-168BB2D46308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{546FA8E0-E60F-462B-B3F0-168BB2D46308}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

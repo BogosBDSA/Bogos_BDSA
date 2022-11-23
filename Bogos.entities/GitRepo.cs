@@ -14,6 +14,7 @@ public class GitRepo
         var tempPath = "./TempRepoFolder";
         try
         {
+
             var clonedPath = Repository.Clone(url, tempPath);
             repo = new Repository(clonedPath);
             if (branchName != "" && repo.Branches[branchName] != null) { Commands.Checkout(repo, branchName); }
