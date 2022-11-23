@@ -2,6 +2,7 @@
 using Bogos.entities;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 public class Program
 {
@@ -18,8 +19,8 @@ public class Program
 
         // Setup web app
         var webAppBuilder = WebApplication.CreateBuilder(args);
-        webAppBuilder.Services.AddAuthentication().AddJwtBearer();
         webAppBuilder.Services.AddAuthorization();
+        webAppBuilder.Services.AddAuthentication("Bearer").AddJwtBearer();
         webAppBuilder.Services.AddDbContext<GitContext>(builder => builder = dbBuilder);
         webAppBuilder.Services.AddEndpointsApiExplorer();
         webAppBuilder.Services.AddSwaggerGen();
@@ -33,11 +34,13 @@ public class Program
         });
 
 	    var webApp = webAppBuilder.Build();
+        
         webApp.UseCors();
-        webApp.UseAuthentication();
+        //webApp.UseAuthentication();
         webApp.UseAuthorization();
         webApp.UseSwagger();
         webApp.UseSwaggerUI();
+        webApp.UseHttpsRedirection();
 
         // Setup endpoints
 	    webApp.MapGet("/", () => 
@@ -46,6 +49,8 @@ public class Program
             and add the users name and which repository you want to display. \n 
             For example : http://localhost:5243/frequency/<User>/<Repository>"
         );
+        webApp.MapGet("/hello", () => "Hello, World!");
+        webApp.MapGet("secret", (ClaimsPrincipal user) => $"Hello {user.Identity?.Name}. My secret").RequireAuthorization();
         webApp.MapGet("/frequency/{author}/{repo}", [Authorize] (string author, string repo) => {
                 var (_, gitRepo) = _repository.HandleUri($"https://github.com/{author}/{repo}.git");
                 if (gitRepo == null) 
