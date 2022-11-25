@@ -3,7 +3,7 @@ namespace Bogos.core
 
     public class GitAuthorModeDTO
     {
-        public Dictionary<string, GitFrequencyModeDTO> AuthorToDateAndFrequency { get; set; }
+        public Dictionary<string, Dictionary<string,int>> AuthorToDateAndFrequency { get; set; }
 
         public GitAuthorModeDTO() => AuthorToDateAndFrequency = new();
     }

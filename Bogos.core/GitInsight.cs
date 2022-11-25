@@ -47,7 +47,7 @@ namespace Bogos.core
                 {
                     freqData.DateToFrequency.Add(commit.Item1, commit.Item2);
                 }
-                data.AuthorToDateAndFrequency.Add(UniqueCommitter.ToString()!, freqData);
+                data.AuthorToDateAndFrequency.Add(UniqueCommitter.ToString()!, freqData.DateToFrequency);
 
             }
             return data;

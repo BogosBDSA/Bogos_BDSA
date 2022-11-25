@@ -49,7 +49,7 @@ public class Program
                 return "Error"; // TODO: Handle error
             }
             var frequencyModeDto = GitInsight.FrequencyMode(gitRepo);
-            return JsonConvert.SerializeObject(frequencyModeDto, Formatting.Indented);
+            return JsonConvert.SerializeObject(frequencyModeDto.DateToFrequency, Formatting.Indented);
         });
         webApp.MapGet("/author/{author}/{repo}", (string author, string repo) =>
         {
@@ -59,7 +59,7 @@ public class Program
                 return "Error"; // TODO: Handle error
             }
             var authorModeDto = GitInsight.AuthorMode(gitRepo);
-            return JsonConvert.SerializeObject(authorModeDto, Formatting.Indented);
+            return JsonConvert.SerializeObject(authorModeDto.AuthorToDateAndFrequency, Formatting.Indented);
         });
 
         webApp.Run();
