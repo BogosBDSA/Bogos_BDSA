@@ -2,7 +2,6 @@
 using Bogos.entities;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
-using System.Security.Claims;
 
 public class Program
 {
@@ -36,7 +35,7 @@ public class Program
 	    var webApp = webAppBuilder.Build();
         
         webApp.UseCors();
-        //webApp.UseAuthentication();
+        webApp.UseAuthentication();
         webApp.UseAuthorization();
         webApp.UseSwagger();
         webApp.UseSwaggerUI();
@@ -50,7 +49,6 @@ public class Program
             For example : http://localhost:5243/frequency/<User>/<Repository>"
         );
         webApp.MapGet("/hello", () => "Hello, World!");
-        webApp.MapGet("secret", (ClaimsPrincipal user) => $"Hello {user.Identity?.Name}. My secret").RequireAuthorization();
         webApp.MapGet("/frequency/{author}/{repo}", [Authorize] (string author, string repo) => {
                 var (_, gitRepo) = _repository.HandleUri($"https://github.com/{author}/{repo}.git");
                 if (gitRepo == null) 

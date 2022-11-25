@@ -31,3 +31,17 @@ This will make a volume visable on your docker desktop application. Should you r
 This is run the database without binding, meaning that killing the container will delete the data. Use this for testing new database features only
 
 ``docker run -d -e POSTGRES_DB=bogosdb -e POSTGRES_PASSWORD=mypassword --name bogosDB -p 5430:5432 postgres``
+
+### testing user tokens for access
+
+Set up access token.
+
+``` cli
+dotnet user-jwts create
+```
+
+example of call, remember to use a tool like curl to access, this is with an example token
+
+``` cli
+curl -i -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im5pY29sIiwic3ViIjoibmljb2wiLCJqdGkiOiIyZTYwZWNlYSIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjIzMDUzIiwiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzNzYiLCJodHRwOi8vbG9jYWxob3N0OjUyNDMiLCJodHRwczovL2xvY2FsaG9zdDo3MDI0Il0sIm5iZiI6MTY2OTM3NjA4MCwiZXhwIjoxNjc3MzI0ODgwLCJpYXQiOjE2NjkzNzYwODMsImlzcyI6ImRvdG5ldC11c2VyLWp3dHMifQ.LkEjAWeeVTOSK5cy5wNR3oy3ET4zOmLBlnCUy8YHcN0" http://localhost:5243/frequency/SDeLaVida/assignment-01
+```
