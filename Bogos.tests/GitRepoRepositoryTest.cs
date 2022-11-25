@@ -236,7 +236,7 @@ public class GitRepoRepositoryTest : IDisposable
         result.Should().Be(expected);
     }
 
-    [Fact]
+    /* [Fact]
     public void Api_Call_Should_Return_Converted_CSharp_Object_To_Json_AuthorMode()
     {
         // Arrange
@@ -249,8 +249,8 @@ public class GitRepoRepositoryTest : IDisposable
 
         // Then
         result.Should().Be(expected);
-    }
-    [Fact]
+    } */
+/*     [Fact]
     public void Api_Call_Should_Return_Converted_CSharp_Object_To_Json_FrequencyMode()
     {
         // Arrange
@@ -264,7 +264,7 @@ public class GitRepoRepositoryTest : IDisposable
         // Then
         result.Should().Be(expected);
     }
-
+ */
     public void Dispose()
     {
         _context.Dispose();

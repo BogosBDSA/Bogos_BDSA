@@ -37,18 +37,18 @@ public class GitAuthorModeTests
     {
         // Arrange
         var expected = new GitAuthorModeDTO();
-
-        var FrequencyForCommitter1 = new GitFrequencyModeDTO();
-        FrequencyForCommitter1.DateToFrequency.Add(date1.ToString("dd-MM-yyyy"), 1);
+    
+        var FrequencyForCommitter1 = new Dictionary<string,int>();
+        FrequencyForCommitter1.Add(date1.ToString("dd-MM-yyyy"), 1);
         expected.AuthorToDateAndFrequency.Add(committer1.ToString(), FrequencyForCommitter1);
 
-        var FrequencyForCommitter2 = new GitFrequencyModeDTO();
-        FrequencyForCommitter2.DateToFrequency.Add(date2.ToString("dd-MM-yyyy"), 2);
-        FrequencyForCommitter2.DateToFrequency.Add(date3.ToString("dd-MM-yyyy"), 1);
+        var FrequencyForCommitter2 = new Dictionary<string,int>();
+        FrequencyForCommitter2.Add(date2.ToString("dd-MM-yyyy"), 2);
+        FrequencyForCommitter2.Add(date3.ToString("dd-MM-yyyy"), 1);
         expected.AuthorToDateAndFrequency.Add(committer2.ToString(), FrequencyForCommitter2);
 
-        var FrequencyForCommitter3 = new GitFrequencyModeDTO();
-        FrequencyForCommitter3.DateToFrequency.Add(date2.ToString("dd-MM-yyyy"), 1);
+        var FrequencyForCommitter3 = new Dictionary<string,int>();
+        FrequencyForCommitter3.Add(date2.ToString("dd-MM-yyyy"), 1);
         expected.AuthorToDateAndFrequency.Add(committer3.ToString(), FrequencyForCommitter3);
 
         // Act
