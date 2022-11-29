@@ -1,6 +1,9 @@
 ﻿namespace Bogos.core;
 using Bogos.entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web.Resource;
+using Microsoft.Identity.Web;
 using Newtonsoft.Json;
 
 public class Program
@@ -18,8 +21,9 @@ public class Program
 
         // Setup web app
         var webAppBuilder = WebApplication.CreateBuilder(args);
+        webAppBuilder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddMicrosoftIdentityWebApi(webAppBuilder.Configuration.GetSection("AzureAdB2C"));
         webAppBuilder.Services.AddAuthorization();
-        webAppBuilder.Services.AddAuthentication("Bearer").AddJwtBearer();
         webAppBuilder.Services.AddDbContext<GitContext>(builder => builder = dbBuilder);
         webAppBuilder.Services.AddEndpointsApiExplorer();
         webAppBuilder.Services.AddSwaggerGen();
@@ -28,14 +32,13 @@ public class Program
             options.AddDefaultPolicy(
                 policy =>
                 {
-                    policy.WithOrigins("http://localhost:5105");
+                    policy.AllowAnyOrigin();
                 });
         });
 
 	    var webApp = webAppBuilder.Build();
         
         webApp.UseCors();
-        webApp.UseAuthentication();
         webApp.UseAuthorization();
         webApp.UseSwagger();
         webApp.UseSwaggerUI();
@@ -48,8 +51,8 @@ public class Program
             and add the users name and which repository you want to display. \n 
             For example : http://localhost:5243/frequency/<User>/<Repository>"
         );
-        webApp.MapGet("/hello", () => "Hello, World!");
-        webApp.MapGet("/frequency/{author}/{repo}", [Authorize] (string author, string repo) => {
+        webApp.MapGet("/frequency/{author}/{repo}", [Authorize][RequiredScope(RequiredScopesConfigurationKey = "AzureAdB2C:Scopes")] (string author, string repo) => {
+                
                 var (_, gitRepo) = _repository.HandleUri($"https://github.com/{author}/{repo}.git");
                 if (gitRepo == null) 
                 {
@@ -58,7 +61,7 @@ public class Program
                 var frequencyModeDto = GitInsight.FrequencyMode(gitRepo);
                 return JsonConvert.SerializeObject(frequencyModeDto, Formatting.Indented);
         });
-        webApp.MapGet("/author/{author}/{repo}", [Authorize] (string author, string repo) => {
+        webApp.MapGet("/author/{author}/{repo}", [Authorize][RequiredScope(RequiredScopesConfigurationKey = "AzureAdB2C:Scopes")] (string author, string repo) => {
                 var (_, gitRepo) = _repository.HandleUri($"https://github.com/{author}/{repo}.git");
                 if (gitRepo == null) 
                 {
