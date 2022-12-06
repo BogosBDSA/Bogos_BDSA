@@ -1,7 +1,7 @@
 # Welcome to bogos
 
-fluentassertions and libgit2sharp have to be added
-libgit is needed in both test and program, fluentassertions is only needed in tests
+fluentassertions and libgit2sharp have to be added.
+libgit is needed in both test and program, fluentassertions is only needed in tests.
 
 ## Import them using
 
@@ -21,13 +21,13 @@ important to do in the correct folders
 
 #### Persitent database
 
-To make your instance of postgres save data somewhere you need to make a volume that the docker container is bound to
-This will make a volume visable on your docker desktop application. Should you run a new container bound to the same volume with the -v command it will then get all previously written data. 
+To make your instance of postgres save data somewhere you need to make a volume that the docker container is bound to.
+This will make a volume visable on your docker desktop application. Should you run a new container bound to the same volume with the -v command it will then get all previously written data.
 
 ``docker run -d -v bogosmemory:/var/lib/postgresql/data -e POSTGRES_DB=bogosdb -e POSTGRES_PASSWORD=mypassword --name bogosDB -p 5430:5432 postgres``
 
 #### Volatile database
 
-This is run the database without binding, meaning that killing the container will delete the data. Use this for testing new database features only
+This is run the database without binding, meaning that killing the container will delete the data. Use this for testing new database features only.
 
 ``docker run -d -e POSTGRES_DB=bogosdb -e POSTGRES_PASSWORD=mypassword --name bogosDB -p 5430:5432 postgres``
