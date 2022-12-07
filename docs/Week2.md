@@ -5,7 +5,7 @@ Bogos Functional requirements:
 - The system should collect all commits.
 - The system should be able to produce a textual output on stdout.
 - The system should test all new code in reasonable way thought the development. 
+- Store results from analysis of git-repo data in SQL server database.
 
 Bogos Non-functional requirements:
-- Store results from analysis of git-repo data in SQL server database.
 - System should be able to update repos in database or skip this step if the updated repo data is already stored. 
